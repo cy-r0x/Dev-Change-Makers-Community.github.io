@@ -103,9 +103,10 @@ a {
   padding-right: max(16px, env(safe-area-inset-right, 0px))
 }
 
+/* No dividers between sections: the page's dot field runs continuously behind them, so space alone
+   separates one section from the next. */
 section {
-  padding-block: clamp(64px, 9vw, 112px);
-  border-top: 1px solid var(--line)
+  padding-block: clamp(56px, 7.5vw, 96px)
 }
 
 h1,
@@ -456,10 +457,20 @@ header.top .mnav .wrap {
   }
 }
 
+/* The page's dot field, fixed to the viewport behind every section. The hero and the Discord card
+   paint their own grounds over it. */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none
+}
+
 .hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  background: var(--bg);
   border-top: 0;
   /* Fills the first screen below the sticky header (69px tall). */
   min-height: calc(100svh - 69px);
@@ -2585,8 +2596,9 @@ header.top .mnav .wrap {
   color: var(--text-muted)
 }
 
+/* Translucent, so the dot field still shows faintly through this one tinted section. */
 .culture {
-  background: var(--surface)
+  background: color-mix(in srgb, var(--surface) 70%, transparent)
 }
 
 .vows {
