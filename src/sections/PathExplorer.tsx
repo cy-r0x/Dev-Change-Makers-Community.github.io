@@ -50,27 +50,39 @@ export function PathExplorer() {
 
   return (
     <>
-      <div className="switch" role="tablist" aria-label="Choose a path">
-        {KEYS.map((key) => (
-          <button
-            key={key}
-            role="tab"
-            id={`tab-${key}`}
-            data-path={key}
-            aria-selected={key === active}
-            aria-controls="path-panel"
-            onClick={() => select(key)}
-          >
-            {key === active && (
-              <motion.span
-                className="switch-pill"
-                layoutId="path-pill"
-                transition={{ type: 'spring', stiffness: 520, damping: 40 }}
-              />
-            )}
-            <span className="switch-label">{PATHS[key].label}</span>
-          </button>
-        ))}
+      <div className="path-head">
+        <div className="switch" role="tablist" aria-label="Choose a path">
+          {KEYS.map((key) => (
+            <button
+              key={key}
+              role="tab"
+              id={`tab-${key}`}
+              data-path={key}
+              aria-selected={key === active}
+              aria-controls="path-panel"
+              onClick={() => select(key)}
+            >
+              {key === active && (
+                <motion.span
+                  className="switch-pill"
+                  layoutId="path-pill"
+                  transition={{ type: 'spring', stiffness: 520, damping: 40 }}
+                />
+              )}
+              <span className="switch-label">{PATHS[key].label}</span>
+            </button>
+          ))}
+        </div>
+        <motion.p
+          key={active}
+          id="path-intro"
+          className="path-intro"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
+        >
+          {path.intro}
+        </motion.p>
       </div>
 
       <motion.div
@@ -78,12 +90,11 @@ export function PathExplorer() {
         id="path-panel"
         role="tabpanel"
         aria-labelledby={`tab-${active}`}
+        aria-describedby="path-intro"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: EASE_OUT }}
       >
-        <p className="path-intro">{path.intro}</p>
-
         <div className="path-split" data-split={split || undefined}>
           <ol className="line" data-path={active}>
             {path.stops.map((stop, index) => {

@@ -76,24 +76,24 @@ export const PATHS: Record<PathKey, Path> = {
     summary:
       'Pick a role, learn its stack from the official docs, contribute to its open-source projects, build in public, then apply globally.',
     intro:
-      'The industry-focused path means far more than web development, app development and editing. In Bangladesh, web or app skills plus decent competitive programming will usually get you a job. Aim higher than that and build to global standards. University mostly prepares you for your next degree, not for industry, so this path is largely on you.',
+      "Industry is far more than web, app and editing work. In Bangladesh, web or app skills plus some competitive programming will get you a job; aim for global standards instead. University prepares you for the next degree, not for industry, so this path is on you.",
     stops: [
       {
         when: 'Step 1 · Sem 1–2',
         title: 'Shortlist a role, then study the people in it',
-        text: "Pick a few roles that interest you, such as ML engineer, cloud engineer or security engineer. Use AI and job boards to find out what experience each one requires. Then find engineers in that role: read their LinkedIn profiles, follow what they work on day to day on X, and look at the life they lead on Instagram, remembering that Instagram shows the best moments, not the average day. Choose the role you'd love doing, and make sure it still has a future in the era of AI.",
+        text: "Pick a few roles, such as ML, cloud or security engineer, and study the people doing them. Use AI and job boards to see what each role requires. Then follow engineers in that role: LinkedIn for their experience, X for their daily work, and Instagram for the life, remembering it shows the best moments, not the average day. Choose a role you'd love that still has a future in the era of AI.",
         res: [l('LinkedIn Jobs', 'https://www.linkedin.com/jobs/')],
       },
       {
         when: 'Step 2',
         title: 'Narrow down the tech stack for that role',
-        text: "Once the role is fixed, list the languages, frameworks and tools that people in that role actually use. Compare a few job posts and engineer profiles until the same names keep appearing. That is your stack. If you're new to programming, learn one language and Git first. Everything else builds on them.",
+        text: "List the languages, frameworks and tools people in that role actually use. Compare job posts and engineer profiles until the same names keep appearing: that's your stack. New to programming? Learn one language and Git first; everything else builds on them.",
         res: [l('roadmap.sh role roadmaps', 'https://roadmap.sh/')],
       },
       {
         when: 'Step 3',
         title: 'Learn the stack, then contribute to its official projects',
-        text: 'Learn each tool from its official docs. Then contribute to the official GitHub projects behind it, starting with documentation and good first issues. Maintainers notice consistent contributors, and so do employers.',
+        text: 'Learn each tool from its official docs, then contribute to the GitHub projects behind it. Start with documentation and good first issues. Maintainers notice consistent contributors, and so do employers.',
         res: [
           l('Good First Issue', 'https://goodfirstissue.dev/'),
           l('CNCF Landscape', 'https://landscape.cncf.io/'),
@@ -103,7 +103,7 @@ export const PATHS: Record<PathKey, Path> = {
       {
         when: 'Step 4',
         title: 'Learn system design, and DSA in moderation',
-        text: 'System design shows you how real products are built and scaled. Learn data structures and algorithms well enough to solve problems and pass interviews, without making it your whole focus.',
+        text: "System design teaches you how real products are built and scaled. Learn data structures and algorithms well enough to solve problems and pass interviews, but don't make them your whole focus.",
         res: [
           l('System Design Primer', 'https://github.com/donnemartin/system-design-primer'),
           l('NeetCode roadmap', 'https://neetcode.io/roadmap'),
@@ -112,12 +112,12 @@ export const PATHS: Record<PathKey, Path> = {
       {
         when: 'Step 5',
         title: 'Build projects and show your work',
-        text: "Build projects with your stack. Record a YouTube video or demo for each one. Post regularly on X about what you're building, and once a month write a LinkedIn post showing your progress. Over time, this public record brings opportunities to you.",
+        text: "Build projects with your stack, and record a video or demo of each one. Post on X about what you're building, and share your progress on LinkedIn once a month. Over time, that public record brings opportunities to you.",
       },
       {
         when: 'Step 6',
         title: 'Go deep on the stack, then apply',
-        text: "Learn the stack properly, to the level the role demands, and then apply. Apply globally as well as locally, and link your projects, contributions and posts from your resume. Start applying for internships while you're still in Step 5. Waiting until you feel ready is a common mistake.",
+        text: "Go as deep as the role demands, then apply, globally as well as locally. Link your projects, contributions and posts from your resume. Start applying for internships during Step 5; waiting until you feel ready is a common mistake.",
         res: [
           l('Tech Interview Handbook', 'https://www.techinterviewhandbook.org/'),
           l('LinkedIn Jobs', 'https://www.linkedin.com/jobs/'),
@@ -126,7 +126,7 @@ export const PATHS: Record<PathKey, Path> = {
     ],
     earn: {
       title: 'Earn through open source',
-      text: 'Go deep on one tech stack, then contribute consistently to projects built on it. Over time, open source pays off in ways tuition never will:',
+      text: 'Go deep on one stack and contribute consistently to projects built on it. Over time, open source pays off in ways tuition never will.',
       points: [
         'Paid programs such as Google Summer of Code and LFX Mentorship',
         'GitHub Sponsors support from people who use your work',
@@ -154,18 +154,18 @@ export const PATHS: Record<PathKey, Path> = {
     summary:
       "Build a strong CGPA and real research experience, take the language tests, find funding, then contact professors for a funded master's or PhD.",
     intro:
-      "For students aiming for a funded master's or PhD. This is the path university is actually built for: it mostly prepares you for your next degree, not for industry. Admissions committees look at grades, research experience, and who can vouch for your work. All three take years to build.",
+      "For a funded master's or PhD, the path university is actually built for. Admissions committees look at grades, research experience and who can vouch for your work, and all three take years to build.",
     stops: [
       {
         when: 'Step 1 · Sem 1–2',
         title: 'Shortlist a research area, then study the people in it',
-        text: "Pick a few areas that interest you, such as machine learning, quantum computing or networks. Find professors and PhD students working in each one: read their recent papers, look at their lab pages, and see where their students end up. Choose an area you'd enjoy spending years on, and make sure it still matters in the era of AI.",
+        text: "Pick a few areas, such as machine learning, quantum computing or networks, and study the people working in them. Read their recent papers, look at their lab pages, and see where their students end up. Choose an area you'd enjoy for years that still matters in the era of AI.",
         res: [l('Google Scholar', 'https://scholar.google.com/'), l('CSRankings', 'https://csrankings.org/')],
       },
       {
         when: 'Step 2',
         title: 'Aim for a CGPA of 3.7 to 4.0, with real depth',
-        text: 'A CGPA of 3.7 or above makes you competitive for most funded programs, and many scholarships filter on CGPA first. Grades alone are not enough: you need real depth in your subject. Linear algebra, probability and statistics carry into almost every research area.',
+        text: "A CGPA of 3.7 or above keeps you competitive for most funded programs, and many scholarships filter on it first. Grades alone aren't enough, so build real depth in your subject. Linear algebra, probability and statistics carry into almost every research area.",
         res: [
           l('MIT 18.06 Linear Algebra', 'https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/'),
           l('Essence of Linear Algebra', 'https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab'),
@@ -174,7 +174,7 @@ export const PATHS: Record<PathKey, Path> = {
       {
         when: 'Step 3',
         title: 'Get real research experience',
-        text: 'Talk to faculty early about a thesis or a lab. Read papers in your area, then try to reproduce one. Apply for research internships. A reproduced paper or an internship result gives you something concrete to write about in your SOP.',
+        text: 'Talk to faculty early about a thesis or a lab. Read papers in your area, try to reproduce one, and apply for research internships. Either result gives you something concrete to write about in your SOP.',
         res: [
           l('arXiv', 'https://arxiv.org/'),
           l('Papers with Code', 'https://paperswithcode.com/'),
@@ -184,7 +184,7 @@ export const PATHS: Record<PathKey, Path> = {
       {
         when: 'Step 4',
         title: 'Take the language and admission tests',
-        text: 'IELTS or TOEFL for most countries. GRE mainly for the US, and many programs have made it optional, so check each one before you spend the fee.',
+        text: 'Take IELTS or TOEFL for most countries, and the GRE mainly for the US. Many programs have made the GRE optional, so check each one before you pay the fee.',
         res: [
           l('IELTS', 'https://ielts.org/'),
           l('TOEFL', 'https://www.ets.org/toefl.html'),
@@ -194,7 +194,7 @@ export const PATHS: Record<PathKey, Path> = {
       {
         when: 'Step 5',
         title: 'Choose a country and find the funding',
-        text: 'Compare countries on cost, funding, visa rules and what happens after you graduate. Then match programs to your research area and find the money. The big scholarships close up to a year before the program starts.',
+        text: 'Compare countries on cost, funding, visa rules and life after graduation. Then match programs to your research area and find the money. The big scholarships close up to a year before the program starts.',
         res: [
           l('Watch: choosing a country for higher study', 'https://www.youtube.com/watch?v=8WZPdhGnTfY'),
           l('Erasmus Mundus catalogue', 'https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en'),
@@ -207,16 +207,16 @@ export const PATHS: Record<PathKey, Path> = {
       {
         when: 'Step 6',
         title: 'Contact professors, then apply',
-        text: 'Write your SOP around one research question you care about. Ask for recommendation letters from faculty who know your work. For a PhD, email professors with a specific reason you want to join their group before you apply. Start early: applications, letters and tests take longer than you expect.',
+        text: 'Build your SOP around one research question you care about, and ask for letters from faculty who know your work. For a PhD, email professors with a specific reason to join their group before you apply. Start early: applications, letters and tests take longer than you expect.',
       },
     ],
     earn: {
       title: 'Earn through research internships',
-      text: 'If you have a strong CGPA and want to go into research, a research internship is the natural next step. Internships pay a stipend, give you real lab experience, and often lead to strong recommendation letters, which carry a lot of weight in PhD applications.',
+      text: 'With a strong CGPA and an interest in research, a research internship is the natural next step. It pays a stipend, gives you real lab experience, and often leads to strong recommendation letters, which weigh heavily in PhD applications.',
       points: [
-        'Start early. Many programs open applications months in advance.',
-        "Read a professor's recent work before writing to them.",
-        "Keep the email short and specific: what you read, what you'd like to work on, and why you're a fit.",
+        'Start early: many programs open applications months in advance.',
+        "Read a professor's recent work before you write to them.",
+        "Keep the email short: what you read, what you'd like to work on, and why you're a fit.",
       ],
       close: 'A focused email to the right professor goes a long way.',
       res: [

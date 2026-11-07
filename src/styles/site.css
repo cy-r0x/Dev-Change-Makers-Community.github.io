@@ -31,8 +31,9 @@ img {
   --brand-soft: #e3f8ec;
   --dev: #0a7a4a;
   --study: #0f1412;
-  --f-sans: "Geist Variable", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --f-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* Geist has no Bengali glyphs, so the taka sign (৳) falls through to Noto Sans Bengali. */
+  --f-sans: "Geist Variable", "Noto Sans Bengali Variable", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono: "Geist Mono Variable", "Noto Sans Bengali Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --r: 10px;
   --wrap: 1160px;
   --ease-ui: cubic-bezier(.2, .8, .2, 1);
@@ -165,6 +166,17 @@ p {
   gap: 16px 48px;
   align-items: end;
   margin-bottom: 48px
+}
+
+/* The right column of a heading when it also carries the section's action under its lede. */
+.head-side {
+  display: grid;
+  gap: 20px;
+  justify-items: start
+}
+
+.head:has(.head-side) {
+  align-items: start
 }
 
 /* A heading with no lede beside it takes the whole row instead of leaving the right column empty. */
@@ -821,10 +833,30 @@ header.top .mnav .wrap {
   position: relative
 }
 
+.path-head {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 40px
+}
+
 .path-intro {
-  margin: 28px 0 40px;
   max-width: 64ch;
   color: var(--text-muted)
+}
+
+/* Wide screens: the tabs sit over the step list and the path's intro over the detail panel, on the
+   same two columns as .path-split below. */
+@media (min-width:1000px) {
+  .path-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 72px);
+    align-items: start;
+    margin-bottom: 48px
+  }
+
+  .path-head .switch {
+    justify-self: start
+  }
 }
 
 .line {
@@ -1355,13 +1387,13 @@ header.top .mnav .wrap {
   color: var(--faint)
 }
 
-/* The closing word on the paths: the callout and the map note share one row. */
+/* How to read the map, set just above it: the callout and the map note share one row. */
 .guide-outro {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
   gap: 24px clamp(32px, 5vw, 64px);
   align-items: center;
-  margin-top: clamp(40px, 5vw, 56px)
+  margin-bottom: clamp(40px, 5vw, 56px)
 }
 
 .guide-outro .peer {
@@ -1383,22 +1415,68 @@ header.top .mnav .wrap {
   margin-top: 28px
 }
 
+/* Orders of magnitude: three rows on one card, split by hairlines. The figure beside its
+   explanation, the Cursor example with its label in the same left column, and a closing line. */
 .scale {
-  margin-top: 56px;
+  margin-top: clamp(56px, 7vw, 88px);
   display: grid;
-  grid-template-columns: minmax(0, .55fr) minmax(0, 1.45fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, .6fr) minmax(0, 1.4fr);
+  gap: 0 clamp(32px, 5vw, 72px);
   align-items: start;
-  padding: clamp(24px, 4vw, 40px);
+  padding: clamp(28px, 4.5vw, 56px);
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface)
 }
 
+.scale-row-head,
+.scale-row-head + .scale-body {
+  margin-top: clamp(28px, 3.5vw, 40px);
+  padding-top: clamp(28px, 3.5vw, 40px);
+  border-top: 1px solid var(--line)
+}
+
+.scale-row-head {
+  display: grid;
+  gap: 14px;
+  align-content: start
+}
+
+.scale-row-head h4 {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -.01em
+}
+
+.scale-logo {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--sunk);
+  border: 1px solid var(--line)
+}
+
+.scale-logo svg {
+  width: 18px;
+  height: 18px
+}
+
 @media (max-width:760px) {
   .scale {
-    grid-template-columns: 1fr;
-    gap: 20px
+    grid-template-columns: 1fr
+  }
+
+  .scale-num + .scale-body {
+    margin-top: 20px
+  }
+
+  .scale-row-head + .scale-body {
+    margin-top: 16px;
+    padding-top: 0;
+    border-top: 0
   }
 }
 
@@ -1430,7 +1508,8 @@ header.top .mnav .wrap {
 }
 
 .scale-body h3 {
-  font-size: clamp(1.2rem, 2.2vw, 1.45rem)
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  letter-spacing: -.02em
 }
 
 .scale-body p {
@@ -1438,40 +1517,62 @@ header.top .mnav .wrap {
   max-width: 66ch
 }
 
-.scale-body .math {
-  font-family: var(--f-mono);
-  font-size: .8rem;
-  color: var(--faint);
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: var(--sunk);
-  overflow-wrap: anywhere
-}
-
-.example {
+/* The working behind the figure: three steps side by side, each a label, a figure and its sum. */
+.math {
   display: grid;
-  gap: 10px;
-  padding: 18px 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 8px 0 0;
   border: 1px solid var(--line);
+  border-radius: 12px;
   background: var(--bg);
-  border-radius: 12px
+  font-variant-numeric: tabular-nums
 }
 
-.example p {
+.math > div {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 16px 18px
+}
+
+.math > div + div {
+  border-left: 1px solid var(--line)
+}
+
+.math dt {
+  font-size: .84rem;
+  color: var(--text-muted)
+}
+
+.math dd {
+  margin: 0
+}
+
+.math-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -.02em;
   color: var(--ink)
 }
 
-.example .example-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  letter-spacing: -.01em
+.math > div:last-child .math-value {
+  color: var(--brand-text)
 }
 
-.example-head svg {
-  width: 16px;
-  height: 16px
+.math-how {
+  font-size: .84rem;
+  color: var(--faint)
+}
+
+@media (max-width:560px) {
+  .math {
+    grid-template-columns: 1fr
+  }
+
+  .math > div + div {
+    border-left: 0;
+    border-top: 1px solid var(--line)
+  }
 }
 
 .months {
@@ -1676,19 +1777,26 @@ header.top .mnav .wrap {
   height: 15px
 }
 
+/* Events opens on a statement heading set across the full width, at the statement section's scale. */
+.events-head {
+  margin-bottom: clamp(32px, 4vw, 48px)
+}
+
+.events-head h2 {
+  max-width: 22ch;
+  font-size: clamp(2.2rem, 5.6vw, 4.6rem);
+  letter-spacing: -.035em;
+  line-height: 1.04
+}
+
 /* The row of tools from past events: icon and name pairs drifting under the heading. */
 .tools {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 44px;
-  padding-block: 6px;
+  margin-bottom: clamp(40px, 5vw, 56px);
+  padding-block: 8px;
   border-block: 1px solid var(--line)
 }
 
 .tools-loop {
-  flex: 1;
-  min-width: 0;
   color: var(--text-muted)
 }
 
@@ -1710,30 +1818,6 @@ header.top .mnav .wrap {
 
 .tools-loop li:hover .tool {
   color: var(--ink)
-}
-
-.tools-toggle {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: color 200ms var(--ease-ui), border-color 200ms var(--ease-ui)
-}
-
-.tools-toggle:hover {
-  color: var(--ink);
-  border-color: var(--faint)
-}
-
-.tools-toggle svg {
-  width: 13px;
-  height: 13px
 }
 
 .luma p {

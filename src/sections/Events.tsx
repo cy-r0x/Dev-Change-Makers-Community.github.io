@@ -1,6 +1,6 @@
 import { CalendarDays } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
-import { ExtIcon, ExternalLink, SectionHead } from '@/components/site/primitives'
+import { ExtIcon, ExternalLink } from '@/components/site/primitives'
 import { ARCHIVE, LINKS } from '@/data/site'
 import { EventTools } from './EventTools'
 
@@ -8,7 +8,9 @@ export function Events() {
   return (
     <section id="events">
       <div className="wrap">
-        <SectionHead title="Free meetups, built around the tools you'll actually use." />
+        <div className="head events-head">
+          <h2>Free meetups, built around the tools you'll actually use.</h2>
+        </div>
         <EventTools />
         <div className="ev-grid">
           <div className="luma">

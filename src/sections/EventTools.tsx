@@ -1,5 +1,3 @@
-import { Pause, Play } from 'lucide-react'
-import { useState } from 'react'
 import type { IconType } from 'react-icons'
 import { FaAws, FaMicrosoft } from 'react-icons/fa6'
 import {
@@ -48,29 +46,19 @@ const LOGOS: LogoItem[] = TOOLS.map(([Icon, name]) => ({
 }))
 
 export function EventTools() {
-  const [paused, setPaused] = useState(false)
-
   return (
     <div className="tools">
       <LogoLoop
         logos={LOGOS}
-        speed={paused ? 0 : 36}
+        speed={36}
         logoHeight={20}
         gap={44}
         fadeOutWidth={0.08}
+        pauseOnHover
         respectReducedMotion={false}
         ariaLabel="Tools used at past events"
         className="tools-loop"
       />
-      <button
-        type="button"
-        className="tools-toggle"
-        aria-pressed={paused}
-        aria-label={paused ? 'Resume the tools row' : 'Pause the tools row'}
-        onClick={() => setPaused((value) => !value)}
-      >
-        {paused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
-      </button>
     </div>
   )
 }

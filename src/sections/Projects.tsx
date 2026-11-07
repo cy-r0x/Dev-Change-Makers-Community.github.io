@@ -1,15 +1,26 @@
 import { ArrowRight } from 'lucide-react'
-import { ExtIcon, ExternalLink, LinkCard, SectionHead } from '@/components/site/primitives'
+import { SiGithub } from 'react-icons/si'
+import { ExtIcon, ExternalLink, LinkCard } from '@/components/site/primitives'
 import { LINKS, MONTHS } from '@/data/site'
 
 export function Projects() {
   return (
     <section id="projects">
       <div className="wrap">
-        <SectionHead
-          title="One event a month. One real project each time."
-          lede="Every DevChangeMakers event builds a working project with several tools together. The code, setup steps and prompts go into the Project Hub, one folder per month, so you can rebuild it at home."
-        />
+        <div className="head">
+          <h2>One event a month. One real project each time.</h2>
+          <div className="head-side">
+            <p className="lede">
+              Every DevChangeMakers event builds a working project with several tools together. The code, setup steps
+              and prompts go into the Project Hub, one folder per month, so you can rebuild it at home.
+            </p>
+            <ExternalLink className="btn btn-ghost" href={LINKS.projectHub}>
+              <SiGithub aria-hidden="true" />
+              Browse the Project Hub
+              <ArrowRight className="arr" aria-hidden="true" />
+            </ExternalLink>
+          </div>
+        </div>
         <div className="months">
           {MONTHS.map((month) => {
             const folderUrl = `${LINKS.projectHubTree}${month.folder}`
@@ -46,12 +57,6 @@ export function Projects() {
               </div>
             )
           })}
-        </div>
-        <div className="cta-row" style={{ marginTop: 28 }}>
-          <ExternalLink className="btn btn-ghost" href={LINKS.projectHub}>
-            Browse the Project Hub on GitHub
-            <ArrowRight className="arr" aria-hidden="true" />
-          </ExternalLink>
         </div>
       </div>
     </section>
