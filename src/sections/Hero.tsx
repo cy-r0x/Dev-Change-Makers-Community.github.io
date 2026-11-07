@@ -29,7 +29,7 @@ export function Hero() {
   }, [start])
 
   return (
-    <section className="hero">
+    <section className="hero" data-play={play || undefined}>
       <HeroBackground onReady={start} />
       <div className="wrap hero-grid">
         <div>
@@ -64,7 +64,6 @@ export function Hero() {
 
         <div
           className="fork"
-          data-play={play || undefined}
           role="img"
           aria-label="The DevChangeMakers mark: two halves, one for the Industry-Focused path and one for the Higher Study path"
         >
