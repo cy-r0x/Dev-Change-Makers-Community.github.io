@@ -949,6 +949,123 @@ header.top .mnav .wrap {
   overflow: hidden
 }
 
+/* Wide screens: the step list on the left, the picked step in full on the right, kept in view while
+   the list scrolls past. */
+@media (min-width:1000px) {
+  .path-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 5vw, 72px);
+    align-items: start
+  }
+
+  .path-split .stop {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 0 18px
+  }
+
+  .path-split .stop .when {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left;
+    padding-top: 0
+  }
+
+  .path-split .stop .rail {
+    grid-column: 1;
+    grid-row: 1 / span 2
+  }
+
+  .path-split .stop .rail span {
+    margin-top: 26px
+  }
+
+  .path-split .stop .rail::before {
+    top: 26px
+  }
+
+  .path-split .stop .body {
+    grid-column: 2
+  }
+
+  .path-split .stop-chev {
+    opacity: 0;
+    translate: -4px 0;
+    transition: opacity 200ms var(--ease-ui), translate 200ms var(--ease-ui), color 200ms var(--ease-ui)
+  }
+
+  .path-split .stop-toggle:hover .stop-chev,
+  .path-split .stop-toggle[aria-current] .stop-chev {
+    opacity: 1;
+    translate: 0 0
+  }
+
+  .path-split .stop-toggle[aria-current] {
+    color: var(--brand-text)
+  }
+}
+
+.stop-detail {
+  position: sticky;
+  top: calc(69px + 32px);
+  display: grid;
+  gap: 28px;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface)
+}
+
+.stop-detail-inner {
+  display: grid;
+  gap: 12px
+}
+
+.stop-detail-when {
+  font-size: .86rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-text);
+  font-weight: 500
+}
+
+.stop-detail h4 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  text-wrap: balance
+}
+
+.stop-detail-inner > p:not(.stop-detail-when) {
+  color: var(--text-muted)
+}
+
+.stop-detail .res {
+  margin-top: 4px
+}
+
+.stop-detail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line)
+}
+
+.stop-detail-nav span {
+  font-size: .86rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums
+}
+
+.btn:disabled {
+  opacity: .4;
+  cursor: default;
+  pointer-events: none
+}
+
 .stop-more-inner {
   display: grid;
   gap: 10px;
@@ -1035,58 +1152,83 @@ header.top .mnav .wrap {
   }
 }
 
+/* Earning on the way: why on the left, what to do (and where to look) on the right, across the full
+   width like the research card above. */
 .earn {
-  --c: var(--dev);
-  margin-top: 56px;
+  margin-top: clamp(56px, 7vw, 88px);
   display: grid;
-  gap: 12px;
-  padding: clamp(24px, 4vw, 36px);
-  border-radius: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px clamp(40px, 6vw, 88px);
+  align-items: start;
+  padding: clamp(28px, 4.5vw, 56px);
+  border-radius: 16px;
   background: var(--surface);
-  border: 1px solid var(--line);
-  max-width: 900px
+  border: 1px solid var(--line)
 }
 
-.earn[data-path="study"] {
-  --c: var(--study)
+@media (max-width:860px) {
+  .earn {
+    grid-template-columns: 1fr
+  }
+}
+
+.earn-intro,
+.earn-side {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  min-width: 0
 }
 
 .earn h3 {
-  font-size: 1.35rem
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  letter-spacing: -.02em
 }
 
 .earn p {
   color: var(--text-muted);
-  max-width: 68ch
-}
-
-.earn ul {
-  margin: 4px 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 8px
-}
-
-.earn li {
-  display: flex;
-  gap: 12px;
-  align-items: baseline
-}
-
-.earn li::before {
-  content: "";
-  flex: none;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--c);
-  transform: translateY(-2px)
+  max-width: 62ch
 }
 
 .earn .close {
   color: var(--ink);
-  font-weight: 500
+  font-weight: 500;
+  margin-top: 8px
+}
+
+.earn ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 16px
+}
+
+.earn li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start
+}
+
+.earn-check {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand-text)
+}
+
+.earn-check svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.5
+}
+
+.earn-side .res {
+  margin-top: 0
 }
 
 .watch {
@@ -1199,13 +1341,28 @@ header.top .mnav .wrap {
   color: var(--faint)
 }
 
-.guide-peer {
-  margin-top: 48px;
-  margin-bottom: 0
+/* The closing word on the paths: the callout and the map note share one row. */
+.guide-outro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: 24px clamp(32px, 5vw, 64px);
+  align-items: center;
+  margin-top: clamp(40px, 5vw, 56px)
 }
 
-.guide-peer + .map-note {
-  margin-top: 20px
+.guide-outro .peer {
+  max-width: none;
+  margin: 0
+}
+
+.guide-outro .map-note {
+  margin: 0
+}
+
+@media (max-width:860px) {
+  .guide-outro {
+    grid-template-columns: 1fr
+  }
 }
 
 .picks + .map-note {

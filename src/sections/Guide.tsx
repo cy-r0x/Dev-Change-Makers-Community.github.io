@@ -16,7 +16,9 @@ export function Guide() {
           <h2>Two halves. Same starting point.</h2>
           <div className="guide-lede">
             <p className="lede">
-              <b>Tech is far bigger than web development, app development, video editing and competitive programming.</b>{' '}
+              <b>
+                Tech is far bigger than web development, app development, video editing and competitive programming.
+              </b>{' '}
               Cloud, data, security, research, embedded systems and more are open to you.
             </p>
             <p className="lede">
@@ -59,17 +61,20 @@ export function Guide() {
 
         <PathExplorer />
 
-        <p className="peer guide-peer">
-          <b>There is no fixed path.</b> It takes trial and error, some risks, some calculated risks, sometimes the goal
-          of reaching the top 1%, and some luck. The people at the top needed all of them.
-        </p>
-        <p className="map-note">
-          <Info aria-hidden="true" />
-          <span>
-            This is a map, not a syllabus. Steps and years are rough. Skip stops you've passed, stay longer where you
-            need to, and switch paths whenever you want. Ask seniors on Discord when you're stuck on a specific problem.
-          </span>
-        </p>
+        <div className="guide-outro">
+          <p className="peer">
+            <b>There is no fixed path.</b> It takes trial and error, some risks, some calculated risks, sometimes the
+            goal of reaching the top 1%, and some luck. The people at the top needed all of them.
+          </p>
+          <p className="map-note">
+            <Info aria-hidden="true" />
+            <span>
+              This is a map, not a syllabus. Steps and years are rough. Skip stops you've passed, stay longer where you
+              need to, and switch paths whenever you want. Ask seniors on Discord when you're stuck on a specific
+              problem.
+            </span>
+          </p>
+        </div>
 
         <div className="scale">
           <div className="scale-num">
@@ -90,8 +95,7 @@ export function Guide() {
             </p>
             <div className="example">
               <p className="example-head">
-                <SiCursor aria-hidden="true" />
-                A real example: Cursor
+                <SiCursor aria-hidden="true" />A real example: Cursor
               </p>
               <p>
                 Cursor was started by four MIT students in 2022. One of them, Sualeh Asif, is from Karachi. By November
