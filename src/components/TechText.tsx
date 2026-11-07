@@ -58,6 +58,10 @@ export interface TechTextProps {
   clickKick?: boolean;
   intro?: 'none' | 'type' | 'assemble' | 'metrics';
   introDuration?: number;
+  /** Holds the intro on its first frame until true, so it can start in step with something else. */
+  introPlay?: boolean;
+  /** When false, the intro and motion still play for visitors whose system asks for reduced motion. Read on mount. */
+  respectReducedMotion?: boolean;
   guides?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -121,6 +125,8 @@ const TechText = ({
   clickKick = true,
   intro = 'none',
   introDuration = 2,
+  introPlay = true,
+  respectReducedMotion = true,
   guides = false,
   className = '',
   style
@@ -157,6 +163,8 @@ const TechText = ({
       clickKick,
       intro,
       introDuration,
+      introPlay,
+      respectReducedMotion,
       guides
     };
     wakeRef.current();
@@ -170,7 +178,9 @@ const TechText = ({
     const scratchCtx = scratch.getContext('2d');
     if (!container || !canvas || !ctx || !scratchCtx) return undefined;
 
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    const reducedMotion =
+      (settingsRef.current?.respectReducedMotion ?? true) &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
     let width = 1;
     let height = 1;
     let dpr = 1;
@@ -777,7 +787,7 @@ const TechText = ({
         introClock = 0;
       }
       const introOn = introKind !== 'none' && !reducedMotion && glyphs.length > 0;
-      if (introOn && fontsReady) introClock += dt;
+      if (introOn && fontsReady && s.introPlay) introClock += dt;
       const progress = introOn ? clamp01((introClock - INTRO_DELAY) / Math.max(0.3, s.introDuration)) : 1;
       introducing = introOn && progress < 1;
 

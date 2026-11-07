@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { hasWebGpu } from '@/lib/webgpu'
 import { useDarkScheme } from '@/lib/useDarkScheme'
 
@@ -10,9 +10,14 @@ const THEMES = {
   light: { background: '#fbfbfa', color: '#dde2de', hover: '#0a7a4a', glow: 0 },
 }
 
-export function HeroBackground() {
+/** `onReady` fires once the waves have drawn their first frame, or straight away on the grid fallback. */
+export function HeroBackground({ onReady }: { onReady?: () => void }) {
   const dark = useDarkScheme()
   const [failed, setFailed] = useState(() => !hasWebGpu())
+
+  useEffect(() => {
+    if (failed) onReady?.()
+  }, [failed, onReady])
 
   // Without WebGPU (no API, or no usable adapter) the waves can't run; show the grid instead.
   if (failed) return <div className="hero-bg-fallback" aria-hidden="true" />
@@ -41,6 +46,7 @@ export function HeroBackground() {
           sweepStrength={0.03}
           // Keeps the mount intro playing under reduced motion; the field itself never churns.
           respectReducedMotion={false}
+          onReady={onReady}
           onError={() => setFailed(true)}
         />
       </Suspense>

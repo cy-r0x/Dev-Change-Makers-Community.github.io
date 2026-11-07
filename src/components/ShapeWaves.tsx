@@ -309,6 +309,8 @@ export interface ShapeWavesProps {
   /** Energy the band adds to the ripple field per frame (60fps-normalised). */
   sweepStrength?: number;
   onError?: (error: Error) => void;
+  /** Called once, when the first frame has been drawn. */
+  onReady?: () => void;
   className?: string;
 }
 
@@ -377,6 +379,7 @@ export default function ShapeWaves({
   sweepWidth = 90,
   sweepStrength = 0.09,
   onError,
+  onReady,
   className = ''
 }: ShapeWavesProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -386,6 +389,7 @@ export default function ShapeWaves({
   const applySettingsRef = useRef<() => void>(() => {});
   const applyMaskRef = useRef<() => void>(() => {});
   const onErrorRef = useRef<ShapeWavesProps['onError']>(onError);
+  const onReadyRef = useRef<ShapeWavesProps['onReady']>(onReady);
 
   settingsRef.current = {
     text: String(text ?? ''),
@@ -420,6 +424,7 @@ export default function ShapeWaves({
     sweepStrength
   };
   onErrorRef.current = onError;
+  onReadyRef.current = onReady;
 
   const settingsSignature = [
     shapes,
@@ -821,6 +826,7 @@ export default function ShapeWaves({
           if (!presented) {
             presented = true;
             setReady(true);
+            onReadyRef.current?.();
           }
           if (animating || hovering || introPlaying || sweeping) frameId = requestAnimationFrame(render);
           else lastFrameTime = 0;

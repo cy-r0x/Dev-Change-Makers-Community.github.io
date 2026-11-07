@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react'
-import { useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { LogoMark } from '@/components/site/primitives'
 import TechText from '@/components/TechText'
 import { HeroBackground } from './HeroBackground'
@@ -15,12 +15,22 @@ const subscribeStacked = (onChange: () => void) => {
 
 const isStacked = () => matchMedia(STACKED_QUERY).matches
 
+// The intros wait for the waves, but never longer than this if the GPU is slow to start.
+const INTRO_WAIT_MS = 1800
+
 export function Hero() {
   const stacked = useSyncExternalStore(subscribeStacked, isStacked, () => false)
+  const [play, setPlay] = useState(false)
+  const start = useCallback(() => setPlay(true), [])
+
+  useEffect(() => {
+    const timer = setTimeout(start, INTRO_WAIT_MS)
+    return () => clearTimeout(timer)
+  }, [start])
 
   return (
     <section className="hero">
-      <HeroBackground />
+      <HeroBackground onReady={start} />
       <div className="wrap hero-grid">
         <div>
           <p className="hero-tagline">Open community for CS students in Bangladesh</p>
@@ -35,6 +45,8 @@ export function Hero() {
               accentColor="var(--brand-text)"
               intro="metrics"
               introDuration={1.6}
+              introPlay={play}
+              respectReducedMotion={false}
               sweep={false}
               specks={10}
             />
@@ -52,6 +64,7 @@ export function Hero() {
 
         <div
           className="fork"
+          data-play={play || undefined}
           role="img"
           aria-label="The DevChangeMakers mark: two halves, one for the Industry-Focused path and one for the Higher Study path"
         >

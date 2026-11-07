@@ -596,10 +596,14 @@ header.top .mnav .wrap {
 }
 
 /* On load the halves start joined, one starting point, then part into the two paths. */
-@media (prefers-reduced-motion: no-preference) {
-  .fork .half {
-    animation: fork-part 1.1s cubic-bezier(.16, 1, .3, 1) .3s both
-  }
+/* The halves wait, hidden, until the hero's waves are ready (data-play), then join and part in step
+   with the wordmark's intro. */
+.fork:not([data-play]) .half {
+  opacity: 0
+}
+
+.fork[data-play] .half {
+  animation: fork-part 1.1s cubic-bezier(.16, 1, .3, 1) .15s both
 }
 
 /* Headline on the left; on the right, what the community does and then the two roads it maps,
