@@ -19,7 +19,7 @@ const SOCIAL_ICONS: Record<string, ReactNode> = {
 }
 
 export function Join() {
-  const emailRef = useRef<HTMLElement>(null)
+  const emailRef = useRef<HTMLSpanElement>(null)
   const [label, setLabel] = useState(COPY_LABEL)
 
   useEffect(() => {
@@ -60,20 +60,32 @@ export function Join() {
             Join the Discord server
           </ExternalLink>
         </div>
-        <div className="socials">
-          {SOCIALS.map((social) => (
-            <ExternalLink className="btn btn-ghost btn-sm" key={social.url} href={social.url}>
-              {SOCIAL_ICONS[social.label]}
-              {social.label}
-            </ExternalLink>
-          ))}
-        </div>
-        <div className="contact">
-          Partnerships and speaking: <code ref={emailRef}>{LINKS.email}</code>{' '}
-          <button className="btn btn-ghost btn-sm" type="button" onClick={copyEmail}>
-            {label === COPY_LABEL ? <Copy aria-hidden="true" /> : <Check aria-hidden="true" />}
-            <span aria-live="polite">{label}</span>
-          </button>
+        <div className="join-meta">
+          <div className="join-block">
+            <h3>Follow along</h3>
+            <ul className="socials">
+              {SOCIALS.map((social) => (
+                <li key={social.url}>
+                  <ExternalLink href={social.url}>
+                    {SOCIAL_ICONS[social.label]}
+                    {social.label}
+                  </ExternalLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="join-block">
+            <h3>Partnerships and speaking</h3>
+            <div className="contact">
+              <span className="contact-email" ref={emailRef}>
+                {LINKS.email}
+              </span>
+              <button className="btn btn-ghost btn-sm" type="button" onClick={copyEmail}>
+                {label === COPY_LABEL ? <Copy aria-hidden="true" /> : <Check aria-hidden="true" />}
+                <span aria-live="polite">{label}</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

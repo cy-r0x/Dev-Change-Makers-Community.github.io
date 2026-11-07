@@ -25,15 +25,20 @@ export function ExtIcon() {
   return <ArrowUpRight className="ext" aria-hidden="true" />
 }
 
-/** A linked card lit by a pointer-following spotlight in the brand colour. */
-export function LinkCard({ className, children, ...rest }: AnchorHTMLAttributes<HTMLElement>) {
+/** A card lit by a pointer-following spotlight in the brand colour; a link unless `as` says otherwise. */
+export function LinkCard({
+  as = 'a',
+  className,
+  children,
+  ...rest
+}: AnchorHTMLAttributes<HTMLElement> & { as?: 'a' | 'div' }) {
   const dark = useDarkScheme()
+  const link = as === 'a' ? { target: '_blank', rel: 'noopener' } : {}
   return (
     <SpotlightCard
-      as="a"
+      as={as}
       bare
-      target="_blank"
-      rel="noopener"
+      {...link}
       className={`spot ${className ?? ''}`.trim()}
       theme={dark ? 'dark' : 'light'}
       spotlightColor="var(--brand-text)"
