@@ -1,6 +1,6 @@
-import { Info } from 'lucide-react'
+import { ArrowUpRight, Info } from 'lucide-react'
 import { FaLinkedin } from 'react-icons/fa6'
-import { ExtIcon, ExternalLink, SectionHead } from '@/components/site/primitives'
+import { ExternalLink, SectionHead } from '@/components/site/primitives'
 import { GUIDES } from '@/data/site'
 
 export function Guidance() {
@@ -19,13 +19,15 @@ export function Guidance() {
           {GUIDES.map((guide) => (
             <li key={guide.url}>
               <ExternalLink href={guide.url}>
-                <b>{guide.name}</b>
-                <span className="d">{guide.role}</span>
-                <span className="o">
-                  <FaLinkedin aria-hidden="true" />
-                  LinkedIn
-                  <ExtIcon />
+                <span className="prog-name">
+                  <b>{guide.name}</b>
+                  <span className="o">
+                    <FaLinkedin aria-hidden="true" />
+                    Message on LinkedIn
+                  </span>
                 </span>
+                <span className="d">{guide.role}</span>
+                <ArrowUpRight className="prog-go" aria-hidden="true" />
               </ExternalLink>
             </li>
           ))}
