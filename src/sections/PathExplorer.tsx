@@ -1,5 +1,5 @@
-import { ArrowRight, Play } from 'lucide-react'
-import { motion } from 'motion/react'
+import { ArrowRight, ChevronDown, Play } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { SiInstagram } from 'react-icons/si'
 import { ExternalLink, ResourceLinks } from '@/components/site/primitives'
@@ -20,12 +20,20 @@ function initialPath(): PathKey {
   return 'dev'
 }
 
+/** The first sentence stays visible; the rest of a step opens on demand. */
+function splitLead(text: string) {
+  const match = text.match(/^(.+?[.!?])\s+([\s\S]+)$/)
+  return match ? { lead: match[1], rest: match[2] } : { lead: text, rest: '' }
+}
+
 export function PathExplorer() {
   const [active, setActive] = useState<PathKey>(initialPath)
+  const [openStop, setOpenStop] = useState(0)
   const path = PATHS[active]
 
   const select = (key: PathKey) => {
     setActive(key)
+    setOpenStop(0)
     try {
       localStorage.setItem(STORAGE_KEY, key)
     } catch {
@@ -70,19 +78,57 @@ export function PathExplorer() {
         <p className="path-intro">{path.intro}</p>
 
         <ol className="line" data-path={active}>
-          {path.stops.map((stop) => (
-            <li className="stop" key={stop.title}>
-              <div className="when">{stop.when}</div>
-              <div className="rail" aria-hidden="true">
-                <span />
-              </div>
-              <div className="body">
-                <h3>{stop.title}</h3>
-                <p>{stop.text}</p>
-                <ResourceLinks links={stop.res} />
-              </div>
-            </li>
-          ))}
+          {path.stops.map((stop, index) => {
+            const { lead, rest } = splitLead(stop.text)
+            const expandable = Boolean(rest || stop.res?.length)
+            const isOpen = expandable && index === openStop
+            const panelId = `stop-${active}-${index}`
+            return (
+              <li className="stop" key={stop.title} data-open={isOpen || undefined}>
+                <div className="when">{stop.when}</div>
+                <div className="rail" aria-hidden="true">
+                  <span />
+                </div>
+                <div className="body">
+                  <h3>
+                    {expandable ? (
+                      <button
+                        type="button"
+                        className="stop-toggle"
+                        aria-expanded={isOpen}
+                        aria-controls={panelId}
+                        onClick={() => setOpenStop(isOpen ? -1 : index)}
+                      >
+                        {stop.title}
+                        <ChevronDown className="stop-chev" aria-hidden="true" />
+                      </button>
+                    ) : (
+                      stop.title
+                    )}
+                  </h3>
+                  <p className="stop-lead">{lead}</p>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="more"
+                        id={panelId}
+                        className="stop-more"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: EASE_OUT }}
+                      >
+                        <div className="stop-more-inner">
+                          {rest && <p>{rest}</p>}
+                          <ResourceLinks links={stop.res} />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </li>
+            )
+          })}
         </ol>
 
         <div className="earn" data-path={active}>
