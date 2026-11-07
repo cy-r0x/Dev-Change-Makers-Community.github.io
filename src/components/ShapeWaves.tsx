@@ -297,6 +297,8 @@ export interface ShapeWavesProps {
   introDuration?: number;
   introKey?: string | number;
   paused?: boolean;
+  /** When true (default), the field freezes and the intro is skipped under prefers-reduced-motion. */
+  respectReducedMotion?: boolean;
   onError?: (error: Error) => void;
   className?: string;
 }
@@ -327,6 +329,7 @@ interface ShapeWavesSettings {
   introDuration: number;
   introKey: string | number;
   paused: boolean;
+  respectReducedMotion: boolean;
 }
 
 export default function ShapeWaves({
@@ -355,6 +358,7 @@ export default function ShapeWaves({
   introDuration = 1.6,
   introKey = 0,
   paused = false,
+  respectReducedMotion = true,
   onError,
   className = ''
 }: ShapeWavesProps) {
@@ -391,7 +395,8 @@ export default function ShapeWaves({
     intro,
     introDuration: Math.max(0.1, introDuration),
     introKey,
-    paused
+    paused,
+    respectReducedMotion
   };
   onErrorRef.current = onError;
 
@@ -415,7 +420,8 @@ export default function ShapeWaves({
     glow,
     intro,
     introDuration,
-    paused
+    paused,
+    respectReducedMotion
   ].join('|');
   const maskSignature = [text, fontFamily, fontWeight, textSize].join('|');
   const replayRef = useRef<() => void>(() => {});
@@ -468,6 +474,7 @@ export default function ShapeWaves({
     let wakeRenderer: () => void = () => {};
     const pointer = { x: 0, y: 0, at: 0, inside: false };
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const motionReduced = () => settingsRef.current.respectReducedMotion && reduceMotion.matches;
     const maskCanvas = document.createElement('canvas');
     const maskContext = maskCanvas.getContext('2d') as CanvasRenderingContext2D;
 
@@ -696,7 +703,7 @@ export default function ShapeWaves({
 
         const isAnimating = () => {
           const settings = settingsRef.current;
-          return visible && !document.hidden && !settings.paused && settings.speed > 0 && !reduceMotion.matches;
+          return visible && !document.hidden && !settings.paused && settings.speed > 0 && !motionReduced();
         };
 
         const render = (now: number) => {
@@ -816,7 +823,7 @@ export default function ShapeWaves({
           compositeParams.set({ strength: [2 * settings.glow, 0, 0, 0] });
           if (settings.intro !== lastIntro) {
             lastIntro = settings.intro;
-            if (settings.intro && !reduceMotion.matches) introArmed = true;
+            if (settings.intro && !motionReduced()) introArmed = true;
           }
           if (!settings.interactive && chargesActive) {
             heights.fill(0);
@@ -864,7 +871,7 @@ export default function ShapeWaves({
         applySettingsRef.current = applySettings;
         applyMaskRef.current = applyMask;
         replayRef.current = () => {
-          if (disposed || failed || !settingsRef.current.intro || reduceMotion.matches) return;
+          if (disposed || failed || !settingsRef.current.intro || motionReduced()) return;
           introArmed = true;
           wakeRenderer();
         };

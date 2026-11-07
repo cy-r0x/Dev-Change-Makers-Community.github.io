@@ -14,8 +14,8 @@ const isDark = () => matchMedia(DARK_QUERY).matches
 
 // ShapeWaves only accepts hex colours, so these mirror --bg, --line and --brand-text in site.css.
 const THEMES = {
-  dark: { background: '#0b0d0c', color: '#1e2422', hover: '#3ee8a0', glow: 0.25 },
-  light: { background: '#fbfbfa', color: '#e1e5e1', hover: '#0a7a4a', glow: 0 },
+  dark: { background: '#0b0d0c', color: '#242b28', hover: '#3ee8a0', glow: 0.35 },
+  light: { background: '#fbfbfa', color: '#dde2de', hover: '#0a7a4a', glow: 0 },
 }
 
 const hasWebGpu = () => typeof navigator !== 'undefined' && 'gpu' in navigator
@@ -37,10 +37,15 @@ export function HeroBackground() {
           hoverColor={theme.hover}
           glow={theme.glow}
           cellSize={12}
-          brightness={0.45}
+          // A still field: only the one-time intro and the pointer ripples move it.
+          speed={0}
+          contrast={1.25}
+          brightness={0.5}
           fade={0.35}
-          splashRadius={44}
-          splashStrength={0.28}
+          splashRadius={64}
+          splashStrength={0.45}
+          // Keeps the mount intro playing under reduced motion; the field itself never churns.
+          respectReducedMotion={false}
           onError={() => setFailed(true)}
         />
       </Suspense>
