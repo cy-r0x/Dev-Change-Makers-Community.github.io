@@ -25,10 +25,7 @@ export function Projects() {
                 <div className="proj-grid">
                   {month.projects.map((project) => (
                     <ExternalLink className="proj" key={project.path} href={`${folderUrl}/${project.path}`}>
-                      <span className="proj-date">
-                        <i />
-                        {project.date}
-                      </span>
+                      <span className="proj-date">{project.date}</span>
                       <h4>{project.name}</h4>
                       <p>{project.note}</p>
                       <div className="chips-s">

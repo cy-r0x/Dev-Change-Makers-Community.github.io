@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { SiDiscord } from 'react-icons/si'
 import { ExternalLink } from '@/components/site/primitives'
 import { LINKS, SOCIALS } from '@/data/site'
 
@@ -41,6 +42,7 @@ export function Join() {
             </p>
           </div>
           <ExternalLink className="btn btn-ink" href={LINKS.discord}>
+            <SiDiscord aria-hidden="true" />
             Join the Discord server
           </ExternalLink>
         </div>

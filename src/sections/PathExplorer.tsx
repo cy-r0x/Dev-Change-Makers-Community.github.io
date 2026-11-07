@@ -42,7 +42,6 @@ export function PathExplorer() {
             aria-controls="path-panel"
             onClick={() => select(key)}
           >
-            <span className="dot" />
             {PATHS[key].label}
           </button>
         ))}

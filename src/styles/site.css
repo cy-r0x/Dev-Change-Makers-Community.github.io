@@ -387,6 +387,12 @@ header.top .mnav .wrap {
   font-size: .88rem
 }
 
+.btn svg {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em
+}
+
 .btn .arr {
   transition: transform .15s
 }
@@ -395,13 +401,28 @@ header.top .mnav .wrap {
   transform: translateX(2px)
 }
 
+/* The grid is the fallback ground; the Shape Waves canvas (.hero-bg) covers it where WebGPU runs. */
 .hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border-top: 0;
-  padding-block: clamp(72px, 11vw, 140px) clamp(56px, 8vw, 96px);
+  padding-block: clamp(40px, 6vw, 80px) clamp(56px, 8vw, 96px);
   background:
     linear-gradient(var(--bg), transparent 30%, transparent 70%, var(--bg)),
     repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 96px),
     repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 96px)
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1
+}
+
+.hero-wordmark {
+  height: clamp(72px, 13vw, 156px);
+  color: var(--ink)
 }
 
 .hero-grid {
@@ -417,39 +438,34 @@ header.top .mnav .wrap {
   }
 }
 
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: .84rem;
-  color: var(--text-muted);
-  padding: 6px 12px 6px 8px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface)
+/* Sits under the wordmark as one lockup: name, then who it's for. The wordmark canvas centers its
+   glyphs with empty room below, so the negative margin tucks the line up against the letters. */
+.hero-tagline {
+  margin-top: calc(-1 * clamp(10px, 1.8vw, 26px));
+  font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  color: var(--text-muted)
 }
 
-.pill i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--brand);
-  box-shadow: 0 0 0 3px var(--brand-soft)
+.hero-grid {
+  margin-top: clamp(28px, 4.5vw, 56px)
 }
 
 .hero h1 {
   font-size: clamp(2.4rem, 5.8vw, 4.5rem);
   font-weight: 600;
   letter-spacing: -.035em;
-  line-height: 1.04;
-  margin-top: 24px
+  line-height: 1.04
 }
 
 .hero h1 .soft {
   color: var(--faint)
 }
 
-.hero h1 em {
+.hero h1 em,
+.hero h1 .accent {
   font-style: normal;
   color: var(--brand-text)
 }
@@ -483,34 +499,84 @@ header.top .mnav .wrap {
   width: 100%
 }
 
+/* Each label sits under its own half of the mark, so position is the key, not a colour dot. */
 .fork .labels {
   display: flex;
   justify-content: space-between;
-  font-family: var(--f-mono);
-  font-size: .72rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  gap: 16px;
+  font-size: .88rem;
+  font-weight: 500;
+  line-height: 1.3;
   color: var(--text-muted);
   border-top: 1px solid var(--line);
   padding-top: 14px
 }
 
-.fork .labels span {
-  display: flex;
-  align-items: center;
-  gap: 7px
+.fork .labels span+span {
+  text-align: right
 }
 
-.fork .labels span::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--dev)
+/* The mark is two tiles split by a diagonal gap (36% across the top edge, 64% across the bottom).
+   On load they start joined, one starting point, then part into the two paths. */
+.fork-mark {
+  display: grid
 }
 
-.fork .labels span+span::before {
-  background: var(--study)
+.fork-mark .logo-mark {
+  grid-area: 1 / 1
+}
+
+.fork-mark .half-dev {
+  clip-path: polygon(0 0, 36% 0, 64% 100%, 0 100%);
+  --join: 4.8% -2%
+}
+
+.fork-mark .half-study {
+  clip-path: polygon(36% 0, 100% 0, 100% 100%, 64% 100%);
+  --join: -4.8% 2%
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fork-mark .logo-mark {
+    animation: fork-part 1.1s cubic-bezier(.16, 1, .3, 1) .3s both
+  }
+
+  .fork .labels span {
+    animation: fork-label .5s cubic-bezier(.16, 1, .3, 1) 1.05s both
+  }
+
+  .fork .labels span+span {
+    animation-delay: 1.15s
+  }
+}
+
+@keyframes fork-part {
+  0% {
+    opacity: 0;
+    translate: var(--join)
+  }
+
+  30% {
+    opacity: 1;
+    translate: var(--join)
+  }
+
+  100% {
+    opacity: 1;
+    translate: 0 0
+  }
+}
+
+@keyframes fork-label {
+  from {
+    opacity: 0;
+    translate: 0 4px
+  }
+}
+
+::selection {
+  background: var(--brand-soft);
+  color: var(--ink)
 }
 
 .strip {
@@ -527,23 +593,11 @@ header.top .mnav .wrap {
 .strip span {
   padding: 18px 20px;
   font-size: .9rem;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 10px
+  color: var(--text-muted)
 }
 
 .strip span+span {
   border-left: 1px solid var(--line)
-}
-
-.strip span::before {
-  content: "";
-  flex: none;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--brand-text)
 }
 
 @media (max-width:860px) {
@@ -657,36 +711,13 @@ header.top .mnav .wrap {
   color: var(--text-muted);
   padding: 11px 16px;
   border-radius: 7px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 9px
-}
-
-.switch button .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: .5
+  cursor: pointer
 }
 
 .switch button[aria-selected="true"] {
   background: var(--surface);
   color: var(--ink);
   box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 0 0 1px var(--line)
-}
-
-.switch button[aria-selected="true"] .dot {
-  opacity: 1
-}
-
-.switch button[aria-selected="true"][data-path="dev"] .dot {
-  background: var(--dev)
-}
-
-.switch button[aria-selected="true"][data-path="study"] .dot {
-  background: var(--study)
 }
 
 .path-intro {
@@ -1144,21 +1175,9 @@ header.top .mnav .wrap {
 }
 
 .proj-date {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--f-mono);
-  font-size: .74rem;
-  letter-spacing: .04em;
-  color: var(--faint);
-  text-transform: uppercase
-}
-
-.proj-date i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--brand-text)
+  font-size: .86rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums
 }
 
 .proj h4 {

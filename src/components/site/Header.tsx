@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { LINKS, MOBILE_NAV, NAV } from '@/data/site'
+import { SiDiscord } from 'react-icons/si'
 import { ExternalLink, LogoMark, LogoWord } from './primitives'
 
 export function Header() {
@@ -28,6 +29,7 @@ export function Header() {
         </nav>
         <div className="top-actions">
           <ExternalLink className="btn btn-brand btn-sm" href={LINKS.discord}>
+            <SiDiscord aria-hidden="true" />
             Join Discord
           </ExternalLink>
           <button
