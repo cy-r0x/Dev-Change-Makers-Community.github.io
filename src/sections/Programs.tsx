@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
+import { Reveal } from '@/components/site/motion'
 import { ExternalLink, SectionHead } from '@/components/site/primitives'
 import { PROGRAMS } from '@/data/site'
 
@@ -17,7 +18,7 @@ export function Programs() {
                 <h3>{group.group}</h3>
                 <span>{group.items.length} programs</span>
               </div>
-              <ul className="prog-list">
+              <Reveal as="ul" className="prog-list" stagger>
                 {group.items.map((program) => (
                   <li key={program.url}>
                     <ExternalLink href={program.url}>
@@ -30,7 +31,7 @@ export function Programs() {
                     </ExternalLink>
                   </li>
                 ))}
-              </ul>
+              </Reveal>
             </div>
           ))}
         </div>

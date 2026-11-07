@@ -3,6 +3,7 @@ import type { AnchorHTMLAttributes, CSSProperties, ReactNode } from 'react'
 import SpotlightCard from '@/components/SpotlightCard'
 import type { Link } from '@/data/site'
 import { useDarkScheme } from '@/lib/useDarkScheme'
+import { Reveal, RevealHeading } from './motion'
 
 export function LogoMark({ className = '' }: { className?: string }) {
   return <span className={`logo-mark ${className}`.trim()} aria-hidden="true" />
@@ -72,8 +73,12 @@ export function ResourceLinks({ links }: { links?: Link[] }) {
 export function SectionHead({ title, lede }: { title: ReactNode; lede?: ReactNode }) {
   return (
     <div className="head">
-      <h2>{title}</h2>
-      {lede && <p className="lede">{lede}</p>}
+      {typeof title === 'string' ? <RevealHeading text={title} /> : <h2>{title}</h2>}
+      {lede && (
+        <Reveal delay={0.15}>
+          <p className="lede">{lede}</p>
+        </Reveal>
+      )}
     </div>
   )
 }

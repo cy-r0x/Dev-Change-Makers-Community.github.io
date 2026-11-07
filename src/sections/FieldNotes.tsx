@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { FaLinkedin } from 'react-icons/fa6'
 import { SiInstagram, SiX, SiYoutube } from 'react-icons/si'
+import { Reveal } from '@/components/site/motion'
 import { ExtIcon, ExternalLink, LinkCard, SectionHead } from '@/components/site/primitives'
 import { FIELD_NOTES, LINKS, type NoteSource } from '@/data/site'
 
@@ -32,7 +33,7 @@ export function FieldNotes() {
           title="Need motivation? Start here."
           lede="Short videos and posts where people talk about real work, real careers and how the world actually works. Picked by the community, one line on why each is worth your time."
         />
-        <div className="fn-bar">
+        <Reveal className="fn-bar">
           <div className="chips" role="group" aria-label="Filter by platform">
             {FILTERS.map((f) => (
               <button key={f.key} type="button" aria-pressed={filter === f.key} onClick={() => setFilter(f.key)}>
@@ -44,8 +45,8 @@ export function FieldNotes() {
             Suggest one on Discord
             <ExtIcon />
           </ExternalLink>
-        </div>
-        <div className="fn-grid">
+        </Reveal>
+        <Reveal className="fn-grid" stagger delay={0.1}>
           {notes.length > 0 ? (
             notes.map((note) => {
               const source = SOURCES[note.type]
@@ -78,7 +79,7 @@ export function FieldNotes() {
               </span>
             </div>
           )}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

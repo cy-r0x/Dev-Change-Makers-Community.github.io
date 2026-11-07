@@ -1,4 +1,5 @@
 import { SiYoutube } from 'react-icons/si'
+import { Reveal } from '@/components/site/motion'
 import { ExternalLink, LinkCard, LogoMark, SectionHead } from '@/components/site/primitives'
 import { LINKS, PLAYLISTS } from '@/data/site'
 
@@ -10,7 +11,7 @@ export function Learn() {
           title="Session recordings and playlists"
           lede="Missed a session? Recordings and tutorial series live on YouTube, grouped by topic."
         />
-        <div className="yt">
+        <Reveal className="yt" stagger>
           <ExternalLink className="yt-thumb" href={LINKS.youtube} aria-label="Open the YouTube channel">
             <LogoMark />
             <span className="yt-badge">
@@ -34,9 +35,9 @@ export function Learn() {
               </ExternalLink>
             </div>
           </div>
-        </div>
+        </Reveal>
         {PLAYLISTS.length > 0 && (
-          <div className="pl-grid">
+          <Reveal className="pl-grid" stagger>
             {PLAYLISTS.map((playlist) => (
               <LinkCard className="pl" key={playlist.url} href={playlist.url}>
                 <div className="thumb">
@@ -46,7 +47,7 @@ export function Learn() {
                 {playlist.note && <span>{playlist.note}</span>}
               </LinkCard>
             ))}
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { FaLinkedin } from 'react-icons/fa6'
+import { Reveal } from '@/components/site/motion'
 import { LinkCard, SectionHead } from '@/components/site/primitives'
 import { TEAM } from '@/data/site'
 
@@ -10,7 +11,7 @@ export function Team() {
           title="The people behind DevChangeMakers"
           lede="Volunteers who plan the events, find the speakers and keep everything free. Want to help run the next one? Say hello on Discord."
         />
-        <ul className="team">
+        <Reveal as="ul" className="team" stagger>
           {TEAM.map((member) => {
             const body = (
               <>
@@ -41,7 +42,7 @@ export function Team() {
               </li>
             )
           })}
-        </ul>
+        </Reveal>
       </div>
     </section>
   )

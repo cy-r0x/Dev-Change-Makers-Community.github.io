@@ -2,6 +2,7 @@ import { CalendarDays, Check, Copy } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { FaLinkedin } from 'react-icons/fa6'
 import { SiDiscord, SiFacebook, SiGithub, SiX, SiYoutube } from 'react-icons/si'
+import { Reveal } from '@/components/site/motion'
 import { ExternalLink } from '@/components/site/primitives'
 import { LINKS, SOCIALS } from '@/data/site'
 import { JoinBackground } from './JoinBackground'
@@ -46,21 +47,23 @@ export function Join() {
   return (
     <section id="join">
       <div className="wrap">
-        <div className="join-card">
-          <JoinBackground />
-          <div>
-            <h2>Find your people on Discord</h2>
-            <p>
-              Event announcements, study groups, project feedback, and seniors who've walked both paths. Come in,
-              introduce yourself, and ask specific questions.
-            </p>
+        <Reveal>
+          <div className="join-card">
+            <JoinBackground />
+            <div>
+              <h2>Find your people on Discord</h2>
+              <p>
+                Event announcements, study groups, project feedback, and seniors who've walked both paths. Come in,
+                introduce yourself, and ask specific questions.
+              </p>
+            </div>
+            <ExternalLink className="btn btn-brand" href={LINKS.discord}>
+              <SiDiscord aria-hidden="true" />
+              Join the Discord server
+            </ExternalLink>
           </div>
-          <ExternalLink className="btn btn-brand" href={LINKS.discord}>
-            <SiDiscord aria-hidden="true" />
-            Join the Discord server
-          </ExternalLink>
-        </div>
-        <div className="join-meta">
+        </Reveal>
+        <Reveal className="join-meta" stagger delay={0.1}>
           <div className="join-block">
             <h3>Follow along</h3>
             <ul className="socials">
@@ -86,7 +89,7 @@ export function Join() {
               </button>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

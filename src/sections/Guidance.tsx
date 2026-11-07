@@ -1,5 +1,6 @@
 import { Info } from 'lucide-react'
 import { FaLinkedin } from 'react-icons/fa6'
+import { Reveal } from '@/components/site/motion'
 import { LinkCard, SectionHead } from '@/components/site/primitives'
 import { GUIDES } from '@/data/site'
 
@@ -19,7 +20,7 @@ export function Guidance() {
           title="Community members you can ask for guidance"
           lede="Members who have been through open-source programs and are happy to answer your questions on LinkedIn."
         />
-        <ul className="guides">
+        <Reveal as="ul" className="guides" stagger>
           {GUIDES.map((guide) => (
             <li key={guide.url}>
               <LinkCard className="guide" href={guide.url} aria-label={`Message ${guide.name} on LinkedIn`}>
@@ -37,8 +38,8 @@ export function Guidance() {
               </LinkCard>
             </li>
           ))}
-        </ul>
-        <div className="guide-outro">
+        </Reveal>
+        <Reveal className="guide-outro" stagger>
           <p className="peer">
             <b>Nobody here is above you.</b> They just started earlier. Learn from them, then go further than they did.
           </p>
@@ -49,7 +50,7 @@ export function Guidance() {
               "Please guide me" usually doesn't. Their time is volunteered, so be patient.
             </span>
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

@@ -1,4 +1,5 @@
 import { Award, Megaphone, ShieldCheck } from 'lucide-react'
+import { Reveal, RevealHeading } from '@/components/site/motion'
 import { VOWS } from '@/data/site'
 
 // In VOWS order: recognition, visibility, free events.
@@ -9,9 +10,9 @@ export function Culture() {
     <section id="culture" className="culture">
       <div className="wrap">
         <div className="head head-statement">
-          <h2>What we're changing in our own community</h2>
+          <RevealHeading text="What we're changing in our own community" />
         </div>
-        <div className="vows">
+        <Reveal className="vows" stagger delay={0.15}>
           {VOWS.map((vow, index) => {
             const Icon = VOW_ICONS[index] ?? Award
             return (
@@ -24,7 +25,7 @@ export function Culture() {
               </article>
             )
           })}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

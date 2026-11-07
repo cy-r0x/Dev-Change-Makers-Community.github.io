@@ -1,3 +1,4 @@
+import { Reveal } from '@/components/site/motion'
 import { ExtIcon, ExternalLink, SectionHead } from '@/components/site/primitives'
 import { COMMUNITIES } from '@/data/site'
 
@@ -9,7 +10,7 @@ export function Communities() {
           title="Groups that are part of DevChangeMakers"
           lede="Each group runs its own meetups around one technology. Follow the ones you care about to hear about their next event first."
         />
-        <ul className="comm-grid">
+        <Reveal as="ul" className="comm-grid" stagger>
           {COMMUNITIES.map((community) => (
             <li className="comm" key={community.name}>
               <div>
@@ -26,7 +27,7 @@ export function Communities() {
               </div>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </div>
     </section>
   )
