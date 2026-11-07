@@ -361,18 +361,18 @@ export const PROGRAMS: { group: string; items: Program[] }[] = [
 export const VOWS = [
   {
     tag: 'Recognition',
-    title: 'Appreciate what should be appreciated',
-    text: "When a student ships a project, fixes a bug in someone else's repo, or gives their first talk, we say so out loud. Credit goes to the people who did the work, not the loudest name in the room.",
+    title: "Give credit where it's due",
+    text: "When a student ships a project, fixes a bug in someone else's repo or gives their first talk, we say so out loud. Credit goes to the people who did the work, not the loudest name in the room.",
   },
   {
     tag: 'Visibility',
     title: 'Use X and LinkedIn well',
-    text: 'Post what you built and what you learned, not just certificates. Follow builders, share their work, and treat your profile as a public notebook that recruiters and professors will actually read.',
+    text: 'Post what you built and learned, not just certificates. Follow builders, share their work, and treat your profile as a public notebook that recruiters and professors actually read.',
   },
   {
     tag: 'Free events',
     title: 'No catch. No edtech.',
-    text: 'Our events are free and unpaid. There\'s no course to buy at the end, no "premium batch", and no registration fee hidden behind a form. Sponsors support the room, not a sales pitch.',
+    text: 'Our events are free and unpaid. No course to sell at the end, no "premium batch", no fee hidden behind a form. Sponsors support the room, not a sales pitch.',
   },
 ]
 

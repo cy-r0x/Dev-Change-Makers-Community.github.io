@@ -1,4 +1,4 @@
-import { ArrowUpRight, Info } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { ExternalLink, SectionHead } from '@/components/site/primitives'
 import { PROGRAMS } from '@/data/site'
 
@@ -34,13 +34,6 @@ export function Programs() {
             </div>
           ))}
         </div>
-        <p className="map-note">
-          <Info aria-hidden="true" />
-          <span>
-            Applications open and close in cohorts. If a page says closed, join the waitlist and keep building in
-            public until it reopens.
-          </span>
-        </p>
       </div>
     </section>
   )

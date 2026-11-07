@@ -8,7 +8,7 @@ export function Events() {
   return (
     <section id="events">
       <div className="wrap">
-        <div className="head events-head">
+        <div className="head head-statement">
           <h2>Free meetups, built around the tools you'll actually use.</h2>
         </div>
         <EventTools />
