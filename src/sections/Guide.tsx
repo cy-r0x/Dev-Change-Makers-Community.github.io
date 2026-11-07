@@ -1,45 +1,60 @@
-import { Info } from 'lucide-react'
+import { BotMessageSquare, BriefcaseBusiness, Compass, GraduationCap, Info, TrendingUp } from 'lucide-react'
 import { SiCursor } from 'react-icons/si'
 import CountUp from '@/components/CountUp'
 import { ResourceLinks } from '@/components/site/primitives'
 import { CURSOR_EXAMPLE_LINKS, DECIDE_STEPS } from '@/data/site'
 import { PathExplorer } from './PathExplorer'
 
+// In DECIDE_STEPS order: trends, AI, industry, professor.
+const DECIDE_ICONS = [TrendingUp, BotMessageSquare, BriefcaseBusiness, GraduationCap]
+
 export function Guide() {
   return (
     <section id="guide">
       <div className="wrap">
-        <div className="head">
-          <p className="wider">
-            Tech is far bigger than web development, app development, video editing and competitive programming.{' '}
-            <span>Cloud, data, security, research, embedded systems and more are open to you.</span>
-          </p>
+        <div className="head guide-head">
           <h2>Two halves. Same starting point.</h2>
-          <p className="lede">
-            Most CS students in Bangladesh end up choosing between building a career in industry and going abroad for a
-            master's or PhD. Pick a path to see its stops. Nobody is waiting at the end to grade you.
-          </p>
+          <div className="guide-lede">
+            <p className="lede">
+              <b>Tech is far bigger than web development, app development, video editing and competitive programming.</b>{' '}
+              Cloud, data, security, research, embedded systems and more are open to you.
+            </p>
+            <p className="lede">
+              Most CS students in Bangladesh end up choosing between building a career in industry and going abroad for
+              a master's or PhD. Pick a path to see its stops. Nobody is waiting at the end to grade you.
+            </p>
+          </div>
         </div>
 
         <div className="decide">
-          <h3>Spend one day researching, then decide</h3>
-          <p className="decide-lede">
-            Whether you're in first year or have already graduated and are moving into software engineering, start the
-            same way. Give yourself one or two semesters at most to decide. Longer than that and you lose time you could
-            spend going deep.
-          </p>
-          <ol className="decide-grid">
-            {DECIDE_STEPS.map((step) => (
-              <li key={step.title}>
-                <b>{step.title}</b>
-                <p>{step.text}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="decide-close">
-            Then make the call yourself. Nobody knows where the world is going, or which path suits you, better than you
-            do. Other people can give you information. The decision is yours.
-          </p>
+          <div className="decide-intro">
+            <h3>Spend one day researching, then decide</h3>
+            <p className="decide-lede">
+              Whether you're in first year or have already graduated and are moving into software engineering, start the
+              same way. Give yourself one or two semesters at most to decide. Longer than that and you lose time you
+              could spend going deep.
+            </p>
+            <p className="decide-close">
+              Then make the call yourself. Nobody knows where the world is going, or which path suits you, better than
+              you do. Other people can give you information. The decision is yours.
+            </p>
+          </div>
+          <ul className="decide-list">
+            {DECIDE_STEPS.map((step, index) => {
+              const Icon = DECIDE_ICONS[index] ?? Compass
+              return (
+                <li key={step.title}>
+                  <span className="decide-icon" aria-hidden="true">
+                    <Icon />
+                  </span>
+                  <div>
+                    <b>{step.title}</b>
+                    <p>{step.text}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
         </div>
 
         <PathExplorer />

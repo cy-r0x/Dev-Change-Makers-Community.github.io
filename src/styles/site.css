@@ -173,22 +173,6 @@ p {
   max-width: 26ch
 }
 
-.wider {
-  grid-column: 1/-1;
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: -.01em;
-  max-width: 60ch;
-  padding: 18px 0 22px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--line)
-}
-
-.wider span {
-  color: var(--text-muted);
-  font-weight: 400
-}
-
 @media (max-width:860px) {
   .head {
     grid-template-columns: 1fr
@@ -695,70 +679,106 @@ header.top .mnav .wrap {
   color: var(--ink)
 }
 
+/* Guide opener: the heading leads on the left; the two framing paragraphs share the right column. */
+.guide-head {
+  align-items: start;
+  margin-bottom: clamp(48px, 6vw, 72px)
+}
+
+.guide-lede {
+  display: grid;
+  gap: 16px
+}
+
+.guide-lede b {
+  color: var(--ink);
+  font-weight: 500
+}
+
+/* Before picking a path: why and how long on the left, four ways to research on the right.
+   Spacing does the grouping, so there are no rules inside the card. */
 .decide {
   display: grid;
-  gap: 14px;
-  padding: clamp(24px, 4vw, 36px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px clamp(40px, 6vw, 88px);
+  align-items: start;
+  padding: clamp(28px, 4.5vw, 56px);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   background: var(--surface);
-  margin-bottom: 48px
+  margin-bottom: clamp(56px, 7vw, 88px)
+}
+
+.decide-intro {
+  display: grid;
+  gap: 16px;
+  align-content: start
 }
 
 .decide h3 {
-  font-size: clamp(1.25rem, 2.4vw, 1.55rem)
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  letter-spacing: -.02em
 }
 
-.decide-lede,
-.decide-grid p {
+.decide-lede {
   color: var(--text-muted)
 }
 
-.decide-grid {
+.decide-close {
+  color: var(--ink);
+  font-weight: 500;
+  margin-top: 8px
+}
+
+.decide-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px;
-  margin-block: 10px
+  gap: 28px
 }
 
-@media (max-width:900px) {
-  .decide-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr))
-  }
+.decide-list li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start
 }
 
-@media (max-width:520px) {
-  .decide-grid {
+.decide-list li > div {
+  display: grid;
+  gap: 4px
+}
+
+.decide-list b {
+  font-weight: 600;
+  letter-spacing: -.01em
+}
+
+.decide-list p {
+  font-size: .95rem;
+  color: var(--text-muted)
+}
+
+.decide-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--brand-soft);
+  color: var(--brand-text)
+}
+
+.decide-icon svg {
+  width: 19px;
+  height: 19px
+}
+
+@media (max-width:860px) {
+  .decide {
     grid-template-columns: 1fr
   }
-}
-
-.decide-grid {
-  list-style: none;
-  padding: 0
-}
-
-.decide-grid li {
-  display: grid;
-  gap: 6px;
-  align-content: start;
-  padding-top: 14px;
-  border-top: 1px solid var(--ink)
-}
-
-.decide-grid b {
-  font-weight: 600
-}
-
-.decide-grid p {
-  font-size: .93rem
-}
-
-.decide-close {
-  font-weight: 500;
-  max-width: 66ch;
-  padding-top: 16px;
-  border-top: 1px solid var(--line)
 }
 
 .switch {
