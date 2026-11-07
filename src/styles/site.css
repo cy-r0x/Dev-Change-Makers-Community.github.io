@@ -132,12 +132,25 @@ p {
   margin: 0
 }
 
-.eyebrow {
-  font-family: var(--f-mono);
-  font-size: .74rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--faint)
+/* The arrow on a link that leaves the site; it leans out a step when its link is hovered. */
+.ext {
+  flex: none;
+  width: .95em;
+  height: .95em;
+  margin-left: .2em;
+  vertical-align: -.12em;
+  stroke-width: 2;
+  opacity: .7;
+  transition: translate 200ms var(--ease-ui), opacity 200ms var(--ease-ui)
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover > .ext,
+  a:hover .go > .ext {
+    opacity: 1;
+    translate: 1.5px -1.5px;
+    transition-duration: 140ms
+  }
 }
 
 .lede {
@@ -154,8 +167,10 @@ p {
   margin-bottom: 48px
 }
 
-.head .eyebrow {
-  grid-column: 1/-1
+/* A heading with no lede beside it takes the whole row instead of leaving the right column empty. */
+.head:not(:has(.lede)) h2 {
+  grid-column: 1/-1;
+  max-width: 26ch
 }
 
 .wider {
@@ -718,7 +733,12 @@ header.top .mnav .wrap {
   }
 }
 
-.decide-grid div {
+.decide-grid {
+  list-style: none;
+  padding: 0
+}
+
+.decide-grid li {
   display: grid;
   gap: 6px;
   align-content: start;
@@ -752,19 +772,33 @@ header.top .mnav .wrap {
 }
 
 .switch button {
+  position: relative;
   font: 500 .93rem/1 var(--f-sans);
   border: 0;
   background: transparent;
   color: var(--text-muted);
   padding: 11px 16px;
   border-radius: 7px;
-  cursor: pointer
+  cursor: pointer;
+  transition: color 200ms var(--ease-ui)
 }
 
+.switch button:hover,
 .switch button[aria-selected="true"] {
+  color: var(--ink)
+}
+
+/* The selected tab's surface is one shared element that glides to whichever tab is picked. */
+.switch-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   background: var(--surface);
-  color: var(--ink);
   box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 0 0 1px var(--line)
+}
+
+.switch-label {
+  position: relative
 }
 
 .path-intro {
@@ -797,12 +831,11 @@ header.top .mnav .wrap {
 }
 
 .stop .when {
-  font-family: var(--f-mono);
-  font-size: .76rem;
-  color: var(--faint);
+  font-size: .84rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
   text-align: right;
-  padding-top: 3px;
-  letter-spacing: .02em
+  padding-top: 2px
 }
 
 .stop .rail {
@@ -859,23 +892,20 @@ header.top .mnav .wrap {
 }
 
 .res a {
+  display: inline-flex;
+  align-items: center;
   font-size: .85rem;
   text-decoration: none;
-  padding: 5px 10px;
+  padding: 5px 9px 5px 10px;
   border-radius: 6px;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
-  transition: border-color .15s
+  transition: border-color 200ms var(--ease-ui)
 }
 
 .res a:hover {
   border-color: var(--faint)
-}
-
-.res a::after {
-  content: " ↗";
-  color: var(--faint)
 }
 
 .branches {
@@ -943,7 +973,6 @@ header.top .mnav .wrap {
   border-radius: 14px;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-top: 3px solid var(--c);
   max-width: 900px
 }
 
@@ -1031,8 +1060,17 @@ header.top .mnav .wrap {
   min-width: 0
 }
 
-.watch-body .eyebrow {
-  color: color-mix(in srgb, var(--bg) 60%, transparent)
+.watch-src {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .82rem;
+  color: color-mix(in srgb, var(--bg) 66%, transparent)
+}
+
+.watch-src svg {
+  width: 13px;
+  height: 13px
 }
 
 .watch-body b {
@@ -1072,13 +1110,35 @@ header.top .mnav .wrap {
   }
 }
 
+/* A side note: an info mark and muted text, no box. */
 .map-note {
+  display: flex;
+  gap: 10px;
   margin-top: 48px;
   font-size: .93rem;
   color: var(--text-muted);
-  border-left: 2px solid var(--line);
-  padding-left: 16px;
-  max-width: 64ch
+  max-width: 68ch
+}
+
+.map-note svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin-top: .22em;
+  color: var(--faint)
+}
+
+.guide-peer {
+  margin-top: 48px;
+  margin-bottom: 0
+}
+
+.guide-peer + .map-note {
+  margin-top: 20px
+}
+
+.picks + .map-note {
+  margin-top: 28px
 }
 
 .scale {
@@ -1108,15 +1168,17 @@ header.top .mnav .wrap {
 .scale-num b {
   font-size: clamp(3.2rem, 8vw, 5rem);
   font-weight: 600;
-  letter-spacing: -.045em;
+  letter-spacing: -.04em;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
-  margin-top: 10px
+  font-variant-numeric: tabular-nums
 }
 
 .scale-num .unit {
-  font-size: 1rem;
-  color: var(--text-muted)
+  font-size: .95rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+  max-width: 18ch;
+  margin-top: 6px
 }
 
 .scale-body {
@@ -1146,15 +1208,28 @@ header.top .mnav .wrap {
 
 .example {
   display: grid;
-  gap: 8px;
-  padding: 16px 18px;
-  border-left: 2px solid var(--brand-text);
-  background: var(--sunk);
-  border-radius: 0 10px 10px 0
+  gap: 10px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 12px
 }
 
 .example p {
   color: var(--ink)
+}
+
+.example .example-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: -.01em
+}
+
+.example-head svg {
+  width: 16px;
+  height: 16px
 }
 
 .months {
@@ -1186,7 +1261,15 @@ header.top .mnav .wrap {
   font-size: 1.2rem
 }
 
+.month-count {
+  font-size: .9rem;
+  color: var(--text-muted)
+}
+
 .month-head a {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
   font-size: .86rem;
   color: var(--brand-text);
   text-decoration: none
@@ -1208,20 +1291,34 @@ header.top .mnav .wrap {
   }
 }
 
+/* Linked cards: the spotlight draws the 1px ring and lights it under the pointer, so the card
+   itself has no border; it lifts 2px on hover. */
+.spot {
+  transition: translate 200ms var(--ease-ui)
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) and (pointer: fine) {
+    .spot:hover {
+      translate: 0 -2px;
+      transition-duration: 140ms
+    }
+  }
+}
+
+.go {
+  display: inline-flex;
+  align-items: center
+}
+
 .proj {
   display: grid;
   grid-template-rows: auto auto 1fr auto auto;
   gap: 10px;
   padding: 22px;
-  border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--surface);
-  text-decoration: none;
-  transition: border-color .15s
-}
-
-.proj:hover {
-  border-color: var(--faint)
+  text-decoration: none
 }
 
 .proj-date {
@@ -1257,6 +1354,7 @@ header.top .mnav .wrap {
 }
 
 .proj .go {
+  display: flex;
   font-size: .86rem;
   color: var(--brand-text);
   padding-top: 12px;
@@ -1289,6 +1387,113 @@ header.top .mnav .wrap {
   font-size: 1.35rem
 }
 
+.luma-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--brand-soft);
+  color: var(--brand-text)
+}
+
+.luma-icon svg {
+  width: 20px;
+  height: 20px
+}
+
+.archive-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 14px
+}
+
+.archive-head h3 {
+  font-size: 1.08rem
+}
+
+.archive-head a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .88rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 200ms var(--ease-ui)
+}
+
+.archive-head a:hover {
+  color: var(--ink)
+}
+
+.archive-head svg {
+  width: 15px;
+  height: 15px
+}
+
+/* The row of tools from past events: icon and name pairs drifting under the heading. */
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 44px;
+  padding-block: 6px;
+  border-block: 1px solid var(--line)
+}
+
+.tools-loop {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-muted)
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: .95rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  transition: color 200ms var(--ease-ui)
+}
+
+.tool svg {
+  width: 20px;
+  height: 20px
+}
+
+.tools-loop li:hover .tool {
+  color: var(--ink)
+}
+
+.tools-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 200ms var(--ease-ui), border-color 200ms var(--ease-ui)
+}
+
+.tools-toggle:hover {
+  color: var(--ink);
+  border-color: var(--faint)
+}
+
+.tools-toggle svg {
+  width: 13px;
+  height: 13px
+}
+
 .luma p {
   color: var(--text-muted)
 }
@@ -1316,7 +1521,7 @@ header.top .mnav .wrap {
 
 .archive a {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 12px;
   align-items: baseline;
   padding: 13px 2px;
@@ -1337,12 +1542,14 @@ header.top .mnav .wrap {
 }
 
 .archive .k {
-  font-family: var(--f-mono);
-  font-size: .72rem;
-  color: var(--faint);
-  text-transform: uppercase;
-  letter-spacing: .06em;
+  font-size: .86rem;
+  color: var(--text-muted);
   white-space: nowrap
+}
+
+.archive .ext {
+  align-self: center;
+  color: var(--faint)
 }
 
 .yt {
@@ -1396,8 +1603,9 @@ header.top .mnav .wrap {
 }
 
 .yt-thumb .yt-badge svg {
-  width: 14px;
-  height: 14px
+  width: 15px;
+  height: 15px;
+  color: #ff0033
 }
 
 .yt-thumb::after {
@@ -1417,7 +1625,7 @@ header.top .mnav .wrap {
   font-size: 1.3rem
 }
 
-.yt-body p:not(.eyebrow) {
+.yt-body p {
   color: var(--text-muted)
 }
 
@@ -1428,7 +1636,6 @@ header.top .mnav .wrap {
 }
 
 .pl {
-  border: 1px solid var(--line);
   background: var(--surface);
   border-radius: var(--r);
   padding: 20px;
@@ -1474,15 +1681,22 @@ header.top .mnav .wrap {
   gap: 10px;
   align-content: start;
   padding: 28px;
-  border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--surface);
-  text-decoration: none;
-  transition: border-color .15s
+  text-decoration: none
 }
 
-.pick:hover {
-  border-color: var(--faint)
+.pick-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px
+}
+
+.pick-head span {
+  font-size: .86rem;
+  color: var(--text-muted);
+  white-space: nowrap
 }
 
 .pick h3 {
@@ -1494,8 +1708,8 @@ header.top .mnav .wrap {
 }
 
 .pick .go {
-  font-family: var(--f-mono);
-  font-size: .8rem;
+  justify-self: start;
+  font-size: .88rem;
   color: var(--brand-text);
   margin-top: 6px
 }
@@ -1532,6 +1746,8 @@ header.top .mnav .wrap {
 }
 
 .fn-suggest {
+  display: inline-flex;
+  align-items: center;
   font-size: .9rem;
   color: var(--brand-text);
   text-decoration: none
@@ -1564,15 +1780,9 @@ header.top .mnav .wrap {
   grid-template-rows: auto auto 1fr auto;
   gap: 10px;
   padding: 22px;
-  border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--surface);
-  text-decoration: none;
-  transition: border-color .15s
-}
-
-.fn:hover {
-  border-color: var(--faint)
+  text-decoration: none
 }
 
 .fn-top {
@@ -1591,17 +1801,18 @@ header.top .mnav .wrap {
 }
 
 .fn-src svg {
-  width: 22px;
-  height: 22px;
-  flex: none
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: var(--ink)
 }
 
 .fn-topic {
-  font-family: var(--f-mono);
-  font-size: .68rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--faint)
+  font-size: .8rem;
+  color: var(--text-muted);
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: var(--sunk)
 }
 
 .fn h3 {
@@ -1620,6 +1831,7 @@ header.top .mnav .wrap {
 }
 
 .fn .go {
+  display: flex;
   font-size: .85rem;
   color: var(--brand-text);
   padding-top: 10px;
@@ -1630,14 +1842,15 @@ header.top .mnav .wrap {
   grid-column: 1/-1
 }
 
+/* A callout in the brand tint: the community speaking directly to the reader. */
 .peer {
   font-size: clamp(1.05rem, 1.8vw, 1.2rem);
   max-width: 62ch;
-  padding: 16px 20px;
+  padding: 18px 22px;
   margin-bottom: 24px;
-  border-left: 2px solid var(--brand-text);
-  background: var(--sunk);
-  border-radius: 0 10px 10px 0;
+  border: 1px solid color-mix(in srgb, var(--brand-text) 22%, transparent);
+  background: var(--brand-soft);
+  border-radius: 12px;
   color: var(--text-muted)
 }
 
@@ -1708,10 +1921,21 @@ header.top .mnav .wrap {
 }
 
 .prog-list .o {
-  font-family: var(--f-mono);
-  font-size: .72rem;
-  color: var(--faint);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .86rem;
+  color: var(--text-muted);
   white-space: nowrap
+}
+
+.prog-list .o > svg:not(.ext) {
+  width: 15px;
+  height: 15px
+}
+
+.prog-list .o .ext {
+  margin-left: -2px
 }
 
 @media (max-width:600px) {
@@ -1782,6 +2006,8 @@ header.top .mnav .wrap {
 }
 
 .comm-links a {
+  display: inline-flex;
+  align-items: center;
   font-size: .84rem;
   text-decoration: none;
   padding: 5px 10px;
@@ -1908,32 +2134,56 @@ header.top .mnav .wrap {
   color: var(--text-muted)
 }
 
-.vow .tag {
-  font-family: var(--f-mono);
-  font-size: .72rem;
-  color: var(--brand-text);
-  letter-spacing: .08em;
-  text-transform: uppercase
-}
-
+/* The closing card stays dark in both themes, on the same shape field as the hero, so the page ends
+   where it began. A faint brand ring keeps it distinct from the dark page. */
 .join-card {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
   gap: 32px;
   align-items: center;
-  background: var(--on-brand);
+  background: #0d110f;
   color: #eef1ef;
+  border: 1px solid color-mix(in srgb, #3ee8a0 16%, transparent);
   border-radius: 18px;
-  padding: clamp(32px, 5vw, 56px);
+  padding: clamp(40px, 6vw, 72px);
   position: relative;
+  isolation: isolate;
   overflow: hidden
 }
 
-.join-card::after {
+.join-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(.22, 1, .36, 1)
+}
+
+.join-bg:has([data-ready="true"]) {
+  opacity: 1
+}
+
+/* Keeps the text side of the field dim enough to read against. */
+.join-bg::after {
   content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0d110f 15%, color-mix(in srgb, #0d110f 55%, transparent) 60%, transparent);
+  pointer-events: none
+}
+
+@media (max-width:820px) {
+  .join-bg::after {
+    background: linear-gradient(180deg, #0d110f 30%, color-mix(in srgb, #0d110f 50%, transparent))
+  }
+}
+
+/* Without WebGPU, the mark sits large and faint in the corner instead. */
+.join-bg-fallback {
   position: absolute;
   right: -60px;
   bottom: -80px;
+  z-index: -1;
   width: 300px;
   aspect-ratio: 232/191;
   background: var(--brand);

@@ -1,3 +1,6 @@
+import { Info } from 'lucide-react'
+import { SiCursor } from 'react-icons/si'
+import CountUp from '@/components/CountUp'
 import { ResourceLinks } from '@/components/site/primitives'
 import { CURSOR_EXAMPLE_LINKS, DECIDE_STEPS } from '@/data/site'
 import { PathExplorer } from './PathExplorer'
@@ -7,7 +10,6 @@ export function Guide() {
     <section id="guide">
       <div className="wrap">
         <div className="head">
-          <p className="eyebrow">Guide yourself</p>
           <p className="wider">
             Tech is far bigger than web development, app development, video editing and competitive programming.{' '}
             <span>Cloud, data, security, research, embedded systems and more are open to you.</span>
@@ -20,21 +22,20 @@ export function Guide() {
         </div>
 
         <div className="decide">
-          <p className="eyebrow">Before you pick</p>
           <h3>Spend one day researching, then decide</h3>
           <p className="decide-lede">
             Whether you're in first year or have already graduated and are moving into software engineering, start the
             same way. Give yourself one or two semesters at most to decide. Longer than that and you lose time you could
             spend going deep.
           </p>
-          <div className="decide-grid">
+          <ol className="decide-grid">
             {DECIDE_STEPS.map((step) => (
-              <div key={step.title}>
+              <li key={step.title}>
                 <b>{step.title}</b>
                 <p>{step.text}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
           <p className="decide-close">
             Then make the call yourself. Nobody knows where the world is going, or which path suits you, better than you
             do. Other people can give you information. The decision is yours.
@@ -43,20 +44,24 @@ export function Guide() {
 
         <PathExplorer />
 
-        <p className="peer" style={{ marginTop: 48, marginBottom: 0 }}>
+        <p className="peer guide-peer">
           <b>There is no fixed path.</b> It takes trial and error, some risks, some calculated risks, sometimes the goal
           of reaching the top 1%, and some luck. The people at the top needed all of them.
         </p>
-        <p className="map-note" style={{ marginTop: 20 }}>
-          This is a map, not a syllabus. Steps and years are rough. Skip stops you've passed, stay longer where you need
-          to, and switch paths whenever you want. Ask seniors on Discord when you're stuck on a specific problem.
+        <p className="map-note">
+          <Info aria-hidden="true" />
+          <span>
+            This is a map, not a syllabus. Steps and years are rough. Skip stops you've passed, stay longer where you
+            need to, and switch paths whenever you want. Ask seniors on Discord when you're stuck on a specific problem.
+          </span>
         </p>
 
         <div className="scale">
           <div className="scale-num">
-            <span className="eyebrow">Think in orders of magnitude</span>
-            <b>5,000</b>
-            <span className="unit">years</span>
+            <b>
+              <CountUp to={5000} separator="," duration={1.8} easing="expo" respectReducedMotion={false} />
+            </b>
+            <span className="unit">years of top corporate salary to earn $1 billion</span>
           </div>
           <div className="scale-body">
             <h3>One idea can be worth more than a lifetime of salary. Several lifetimes, in fact.</h3>
@@ -69,7 +74,10 @@ export function Guide() {
               ৳20 lakh × 12 = ৳2.4 crore a year · $1 billion ≈ ৳12,000 crore at ~৳120/$ · 12,000 ÷ 2.4 = 5,000 years
             </p>
             <div className="example">
-              <span className="eyebrow">Real example · Cursor</span>
+              <p className="example-head">
+                <SiCursor aria-hidden="true" />
+                A real example: Cursor
+              </p>
               <p>
                 Cursor was started by four MIT students in 2022. One of them, Sualeh Asif, is from Karachi. By November
                 2025, Forbes estimated each co-founder's stake at over $1.3 billion, at age 25 or 26. In August 2026,

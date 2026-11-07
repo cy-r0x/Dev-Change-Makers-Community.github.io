@@ -1,12 +1,13 @@
-import { ExternalLink, SectionHead } from '@/components/site/primitives'
+import { Info } from 'lucide-react'
+import { FaLinkedin } from 'react-icons/fa6'
+import { ExtIcon, ExternalLink, SectionHead } from '@/components/site/primitives'
 import { GUIDES } from '@/data/site'
 
 export function Guidance() {
   return (
-    <section id="guidance" style={{ paddingTop: 0 }}>
+    <section id="guidance">
       <div className="wrap">
         <SectionHead
-          eyebrow="Reach out"
           title="Community members you can ask for guidance"
           lede="Members who have been through open-source programs and are happy to answer questions. Message them on LinkedIn."
         />
@@ -20,14 +21,22 @@ export function Guidance() {
               <ExternalLink href={guide.url}>
                 <b>{guide.name}</b>
                 <span className="d">{guide.role}</span>
-                <span className="o">LinkedIn ↗</span>
+                <span className="o">
+                  <FaLinkedin aria-hidden="true" />
+                  LinkedIn
+                  <ExtIcon />
+                </span>
               </ExternalLink>
             </li>
           ))}
         </ul>
         <p className="map-note">
-          Do your own research first, then ask one specific question. "How did you prepare your GSoC proposal?" gets an
-          answer. "Please guide me" usually doesn't. Their time is volunteered, so be patient if a reply takes a while.
+          <Info aria-hidden="true" />
+          <span>
+            Do your own research first, then ask one specific question. "How did you prepare your GSoC proposal?" gets
+            an answer. "Please guide me" usually doesn't. Their time is volunteered, so be patient if a reply takes a
+            while.
+          </span>
         </p>
       </div>
     </section>

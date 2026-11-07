@@ -8,7 +8,7 @@ export function Footer() {
       <div className="wrap">
         <LogoWord label="DevChangeMakers" />
         <span>
-          © {YEAR} DevChangeMakers Community · Bangladesh · Free events. Open materials.
+          © {YEAR} DevChangeMakers Community, Bangladesh. Free events, open materials.
         </span>
       </div>
     </footer>

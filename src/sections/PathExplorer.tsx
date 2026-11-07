@@ -1,10 +1,13 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Play } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useState } from 'react'
-import { ExternalLink, PlayIcon, ResourceLinks } from '@/components/site/primitives'
+import { SiInstagram } from 'react-icons/si'
+import { ExternalLink, ResourceLinks } from '@/components/site/primitives'
 import { PATHS, type PathKey } from '@/data/site'
 
 const STORAGE_KEY = 'dcm-path'
 const KEYS = Object.keys(PATHS) as PathKey[]
+const EASE_OUT = [0.16, 1, 0.3, 1] as const
 
 function initialPath(): PathKey {
   if (location.hash === '#study' || location.hash === '#higher-study') return 'study'
@@ -43,12 +46,27 @@ export function PathExplorer() {
             aria-controls="path-panel"
             onClick={() => select(key)}
           >
-            {PATHS[key].label}
+            {key === active && (
+              <motion.span
+                className="switch-pill"
+                layoutId="path-pill"
+                transition={{ type: 'spring', stiffness: 520, damping: 40 }}
+              />
+            )}
+            <span className="switch-label">{PATHS[key].label}</span>
           </button>
         ))}
       </div>
 
-      <div id="path-panel" role="tabpanel" aria-labelledby={`tab-${active}`}>
+      <motion.div
+        key={active}
+        id="path-panel"
+        role="tabpanel"
+        aria-labelledby={`tab-${active}`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: EASE_OUT }}
+      >
         <p className="path-intro">{path.intro}</p>
 
         <ol className="line" data-path={active}>
@@ -68,7 +86,6 @@ export function PathExplorer() {
         </ol>
 
         <div className="earn" data-path={active}>
-          <p className="eyebrow">Earning beyond tuition and campus jobs</p>
           <h3>{path.earn.title}</h3>
           <p>{path.earn.text}</p>
           <ul>
@@ -80,10 +97,13 @@ export function PathExplorer() {
           {path.earn.feature && (
             <ExternalLink className="watch" href={path.earn.feature.url}>
               <span className="watch-play" aria-hidden="true">
-                <PlayIcon />
+                <Play fill="currentColor" strokeWidth={0} />
               </span>
               <span className="watch-body">
-                <span className="eyebrow">Watch · Instagram reel</span>
+                <span className="watch-src">
+                  <SiInstagram aria-hidden="true" />
+                  Instagram reel
+                </span>
                 <b>{path.earn.feature.title}</b>
                 <span>{path.earn.feature.note}</span>
               </span>
@@ -92,7 +112,7 @@ export function PathExplorer() {
           )}
           <ResourceLinks links={path.earn.res} />
         </div>
-      </div>
+      </motion.div>
     </>
   )
 }

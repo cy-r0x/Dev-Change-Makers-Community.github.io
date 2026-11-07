@@ -1,12 +1,11 @@
-import { ExternalLink, SectionHead } from '@/components/site/primitives'
+import { ExtIcon, ExternalLink, SectionHead } from '@/components/site/primitives'
 import { COMMUNITIES } from '@/data/site'
 
 export function Communities() {
   return (
-    <section id="communities" style={{ paddingTop: 0 }}>
+    <section id="communities">
       <div className="wrap">
         <SectionHead
-          eyebrow="Communities"
           title="Groups that are part of DevChangeMakers"
           lede="Each group runs its own meetups around one technology. Follow the ones you care about to hear about their next event first."
         />
@@ -20,7 +19,8 @@ export function Communities() {
               <div className="comm-links">
                 {community.links.map((link) => (
                   <ExternalLink key={link.url} href={link.url}>
-                    {link.label} ↗
+                    {link.label}
+                    <ExtIcon />
                   </ExternalLink>
                 ))}
               </div>

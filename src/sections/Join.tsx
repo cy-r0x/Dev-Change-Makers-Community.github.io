@@ -1,9 +1,22 @@
-import { useEffect, useRef, useState } from 'react'
-import { SiDiscord } from 'react-icons/si'
+import { CalendarDays, Check, Copy } from 'lucide-react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { FaLinkedin } from 'react-icons/fa6'
+import { SiDiscord, SiFacebook, SiGithub, SiX, SiYoutube } from 'react-icons/si'
 import { ExternalLink } from '@/components/site/primitives'
 import { LINKS, SOCIALS } from '@/data/site'
+import { JoinBackground } from './JoinBackground'
 
 const COPY_LABEL = 'Copy email'
+
+const SOCIAL_ICONS: Record<string, ReactNode> = {
+  LinkedIn: <FaLinkedin aria-hidden="true" />,
+  X: <SiX aria-hidden="true" />,
+  YouTube: <SiYoutube aria-hidden="true" />,
+  Luma: <CalendarDays aria-hidden="true" />,
+  'Facebook page': <SiFacebook aria-hidden="true" />,
+  'Facebook group': <SiFacebook aria-hidden="true" />,
+  GitHub: <SiGithub aria-hidden="true" />,
+}
 
 export function Join() {
   const emailRef = useRef<HTMLElement>(null)
@@ -34,6 +47,7 @@ export function Join() {
     <section id="join">
       <div className="wrap">
         <div className="join-card">
+          <JoinBackground />
           <div>
             <h2>Find your people on Discord</h2>
             <p>
@@ -49,6 +63,7 @@ export function Join() {
         <div className="socials">
           {SOCIALS.map((social) => (
             <ExternalLink className="btn btn-ghost btn-sm" key={social.url} href={social.url}>
+              {SOCIAL_ICONS[social.label]}
               {social.label}
             </ExternalLink>
           ))}
@@ -56,7 +71,8 @@ export function Join() {
         <div className="contact">
           Partnerships and speaking: <code ref={emailRef}>{LINKS.email}</code>{' '}
           <button className="btn btn-ghost btn-sm" type="button" onClick={copyEmail}>
-            {label}
+            {label === COPY_LABEL ? <Copy aria-hidden="true" /> : <Check aria-hidden="true" />}
+            <span aria-live="polite">{label}</span>
           </button>
         </div>
       </div>

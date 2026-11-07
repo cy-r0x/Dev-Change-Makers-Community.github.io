@@ -3,10 +3,9 @@ import { TEAM } from '@/data/site'
 
 export function Team() {
   return (
-    <section id="team" style={{ paddingTop: 0 }}>
+    <section id="team">
       <div className="wrap">
         <SectionHead
-          eyebrow="Team"
           title="The people behind DevChangeMakers"
           lede="Volunteers who plan the events, find the speakers and keep everything free. Want to help run the next one? Say hello on Discord."
         />

@@ -1,16 +1,8 @@
-import { lazy, Suspense, useState, useSyncExternalStore } from 'react'
+import { lazy, Suspense, useState } from 'react'
+import { hasWebGpu } from '@/lib/webgpu'
+import { useDarkScheme } from '@/lib/useDarkScheme'
 
 const ShapeWaves = lazy(() => import('@/components/ShapeWaves'))
-
-const DARK_QUERY = '(prefers-color-scheme: dark)'
-
-const subscribe = (onChange: () => void) => {
-  const query = matchMedia(DARK_QUERY)
-  query.addEventListener('change', onChange)
-  return () => query.removeEventListener('change', onChange)
-}
-
-const isDark = () => matchMedia(DARK_QUERY).matches
 
 // ShapeWaves only accepts hex colours, so these mirror --bg, --line and --brand-text in site.css.
 const THEMES = {
@@ -18,10 +10,8 @@ const THEMES = {
   light: { background: '#fbfbfa', color: '#dde2de', hover: '#0a7a4a', glow: 0 },
 }
 
-const hasWebGpu = () => typeof navigator !== 'undefined' && 'gpu' in navigator
-
 export function HeroBackground() {
-  const dark = useSyncExternalStore(subscribe, isDark, () => false)
+  const dark = useDarkScheme()
   const [failed, setFailed] = useState(() => !hasWebGpu())
 
   // Without WebGPU (no API, or no usable adapter) the waves can't run; show the grid instead.
@@ -44,6 +34,11 @@ export function HeroBackground() {
           fade={0.35}
           splashRadius={64}
           splashStrength={0.45}
+          // Every 5s a band of colour crosses the field, alternating left-to-right and right-to-left.
+          sweepInterval={5}
+          sweepDuration={2.6}
+          sweepWidth={110}
+          sweepStrength={0.03}
           // Keeps the mount intro playing under reduced motion; the field itself never churns.
           respectReducedMotion={false}
           onError={() => setFailed(true)}

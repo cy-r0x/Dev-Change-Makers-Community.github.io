@@ -299,6 +299,15 @@ export interface ShapeWavesProps {
   paused?: boolean;
   /** When true (default), the field freezes and the intro is skipped under prefers-reduced-motion. */
   respectReducedMotion?: boolean;
+  /** Seconds between automatic sweeps across the field, alternating left-to-right and right-to-left.
+      0 (default) turns sweeps off. Read once on mount. */
+  sweepInterval?: number;
+  /** Seconds a sweep takes to cross the field. */
+  sweepDuration?: number;
+  /** Width of the sweeping band, in CSS pixels. */
+  sweepWidth?: number;
+  /** Energy the band adds to the ripple field per frame (60fps-normalised). */
+  sweepStrength?: number;
   onError?: (error: Error) => void;
   className?: string;
 }
@@ -330,6 +339,10 @@ interface ShapeWavesSettings {
   introKey: string | number;
   paused: boolean;
   respectReducedMotion: boolean;
+  sweepInterval: number;
+  sweepDuration: number;
+  sweepWidth: number;
+  sweepStrength: number;
 }
 
 export default function ShapeWaves({
@@ -359,6 +372,10 @@ export default function ShapeWaves({
   introKey = 0,
   paused = false,
   respectReducedMotion = true,
+  sweepInterval = 0,
+  sweepDuration = 2.4,
+  sweepWidth = 90,
+  sweepStrength = 0.09,
   onError,
   className = ''
 }: ShapeWavesProps) {
@@ -396,7 +413,11 @@ export default function ShapeWaves({
     introDuration: Math.max(0.1, introDuration),
     introKey,
     paused,
-    respectReducedMotion
+    respectReducedMotion,
+    sweepInterval: Math.max(0, sweepInterval),
+    sweepDuration: Math.max(0.2, sweepDuration),
+    sweepWidth: Math.max(8, sweepWidth),
+    sweepStrength
   };
   onErrorRef.current = onError;
 
@@ -502,6 +523,48 @@ export default function ShapeWaves({
         }
       }
       chargesActive = true;
+    };
+
+    // A full-height band of energy centred on x (CSS px). Each row's centre wobbles a little so the
+    // leading edge reads as a wave rather than a ruler line.
+    const sweepBand = (x: number, strength: number, t: number) => {
+      const settings = settingsRef.current;
+      const sigma = Math.max(0.5, ((settings.sweepWidth * dpr) / cellPx) * 0.5);
+      const reach = Math.ceil(sigma * 2.5);
+      const baseCol = (x * dpr - gridOrigin[0]) / cellPx - 0.5;
+      for (let row = 0; row < rows; row++) {
+        const centerCol = baseCol + Math.sin(row * 0.16 + t * 2.2) * sigma * 0.9;
+        const minCol = Math.max(0, Math.floor(centerCol - reach));
+        const maxCol = Math.min(cols - 1, Math.ceil(centerCol + reach));
+        for (let col = minCol; col <= maxCol; col++) {
+          const dx = col - centerCol;
+          const index = row * cols + col;
+          heights[index] = Math.min(1.2, heights[index] + strength * Math.exp(-(dx * dx) / (2 * sigma * sigma)));
+        }
+      }
+      chargesActive = true;
+    };
+
+    let sweep: { start: number; dir: 1 | -1 } | null = null;
+    let nextSweepDir: 1 | -1 = 1;
+    let sweepTimer = 0;
+
+    // Advances the active sweep; returns true while one is crossing the field.
+    const stepSweep = (now: number, deltaSeconds: number) => {
+      if (!sweep) return false;
+      const settings = settingsRef.current;
+      const progress = (now - sweep.start) / 1000 / settings.sweepDuration;
+      if (progress >= 1) {
+        sweep = null;
+        return false;
+      }
+      const eased = 0.5 - 0.5 * Math.cos(Math.PI * progress);
+      const width = canvas.clientWidth;
+      const margin = settings.sweepWidth;
+      const along = -margin + eased * (width + margin * 2);
+      const x = sweep.dir === 1 ? along : width - along;
+      sweepBand(x, settings.sweepStrength * deltaSeconds * 60, now / 1000);
+      return true;
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -719,6 +782,7 @@ export default function ShapeWaves({
             const distance = settings.flow * cellPx * deltaSeconds;
             drift = [drift[0] + Math.cos(angle) * distance, drift[1] + Math.sin(angle) * distance];
           }
+          const sweeping = visible && !document.hidden && stepSweep(now, deltaSeconds);
           const hovering = visible && !document.hidden && updateCharges(deltaSeconds);
           if (introArmed) {
             introArmed = false;
@@ -758,7 +822,7 @@ export default function ShapeWaves({
             presented = true;
             setReady(true);
           }
-          if (animating || hovering || introPlaying) frameId = requestAnimationFrame(render);
+          if (animating || hovering || introPlaying || sweeping) frameId = requestAnimationFrame(render);
           else lastFrameTime = 0;
         };
 
@@ -893,6 +957,17 @@ export default function ShapeWaves({
 
         resize();
         applyMask();
+
+        const interval = settingsRef.current.sweepInterval;
+        if (interval > 0) {
+          sweepTimer = window.setInterval(() => {
+            // Skip the turn rather than queueing while hidden, scrolled away or mid-sweep.
+            if (disposed || failed || sweep || !visible || document.hidden || motionReduced()) return;
+            sweep = { start: performance.now(), dir: nextSweepDir };
+            nextSweepDir = nextSweepDir === 1 ? -1 : 1;
+            wakeRenderer();
+          }, interval * 1000);
+        }
       } catch (error) {
         reportFailure(error);
       }
@@ -900,6 +975,7 @@ export default function ShapeWaves({
 
     return () => {
       disposed = true;
+      window.clearInterval(sweepTimer);
       wakeRenderer = () => {};
       applySettingsRef.current = () => {};
       applyMaskRef.current = () => {};
