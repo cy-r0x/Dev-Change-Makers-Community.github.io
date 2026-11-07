@@ -41,7 +41,7 @@ export function Join() {
               introduce yourself, and ask specific questions.
             </p>
           </div>
-          <ExternalLink className="btn btn-ink" href={LINKS.discord}>
+          <ExternalLink className="btn btn-brand" href={LINKS.discord}>
             <SiDiscord aria-hidden="true" />
             Join the Discord server
           </ExternalLink>

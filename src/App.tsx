@@ -12,6 +12,7 @@ import { Learn } from '@/sections/Learn'
 import { Paid } from '@/sections/Paid'
 import { Programs } from '@/sections/Programs'
 import { Projects } from '@/sections/Projects'
+import { Statement } from '@/sections/Statement'
 import { Team } from '@/sections/Team'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Header />
       <main id="top">
         <Hero />
+        <Statement />
         <Guide />
         <Events />
         <Projects />

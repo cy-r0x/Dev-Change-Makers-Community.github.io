@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { ExternalLink, PlayIcon, ResourceLinks } from '@/components/site/primitives'
 import { PATHS, type PathKey } from '@/data/site'
@@ -86,9 +87,7 @@ export function PathExplorer() {
                 <b>{path.earn.feature.title}</b>
                 <span>{path.earn.feature.note}</span>
               </span>
-              <span className="watch-go" aria-hidden="true">
-                →
-              </span>
+              <ArrowRight className="watch-go" aria-hidden="true" />
             </ExternalLink>
           )}
           <ResourceLinks links={path.earn.res} />

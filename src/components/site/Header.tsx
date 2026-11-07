@@ -28,7 +28,7 @@ export function Header() {
           ))}
         </nav>
         <div className="top-actions">
-          <ExternalLink className="btn btn-brand btn-sm" href={LINKS.discord}>
+          <ExternalLink className="btn btn-ghost btn-sm" href={LINKS.discord}>
             <SiDiscord aria-hidden="true" />
             Join Discord
           </ExternalLink>

@@ -41,13 +41,6 @@ export const MOBILE_NAV: Link[] = [
   { label: 'Reach out', url: '#guidance' },
 ]
 
-export const STRIP = [
-  'Free entry to every event',
-  'No paid courses or upsells',
-  'Two self-guided paths',
-  'Open slides and code',
-]
-
 export const DECIDE_STEPS = [
   { title: 'Read the trends', text: 'Look at where industry and research are heading this year, globally and in Bangladesh.' },
   { title: 'Think it through with AI', text: "Use an AI assistant to question your assumptions and fill in what you don't know yet." },

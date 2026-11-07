@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react'
 import { ExternalLink, SectionHead } from '@/components/site/primitives'
 import { LINKS, MONTHS } from '@/data/site'
 
@@ -43,7 +44,8 @@ export function Projects() {
         </div>
         <div className="cta-row" style={{ marginTop: 28 }}>
           <ExternalLink className="btn btn-ghost" href={LINKS.projectHub}>
-            Browse the Project Hub on GitHub <span className="arr">→</span>
+            Browse the Project Hub on GitHub
+            <ArrowRight className="arr" aria-hidden="true" />
           </ExternalLink>
         </div>
       </div>
