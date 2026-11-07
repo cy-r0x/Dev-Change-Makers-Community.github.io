@@ -54,6 +54,8 @@ export type Stop = { when: string; title: string; text: string; res?: Link[] }
 
 export type Path = {
   label: string
+  /** One line for the overview above the Guide section. */
+  summary: string
   intro: string
   stops: Stop[]
   earn: {
@@ -71,6 +73,8 @@ const l = (label: string, url: string): Link => ({ label, url })
 export const PATHS: Record<PathKey, Path> = {
   dev: {
     label: 'Industry-Focused path',
+    summary:
+      'Pick a role, learn its stack from the official docs, contribute to its open-source projects, build in public, then apply globally.',
     intro:
       'The industry-focused path means far more than web development, app development and editing. In Bangladesh, web or app skills plus decent competitive programming will usually get you a job. Aim higher than that and build to global standards. University mostly prepares you for your next degree, not for industry, so this path is largely on you.',
     stops: [
@@ -147,6 +151,8 @@ export const PATHS: Record<PathKey, Path> = {
   },
   study: {
     label: 'Higher Study path',
+    summary:
+      "Build a strong CGPA and real research experience, take the language tests, find funding, then contact professors for a funded master's or PhD.",
     intro:
       "For students aiming for a funded master's or PhD. This is the path university is actually built for: it mostly prepares you for your next degree, not for industry. Admissions committees look at grades, research experience, and who can vouch for your work. All three take years to build.",
     stops: [

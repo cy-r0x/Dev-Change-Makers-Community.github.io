@@ -1,5 +1,6 @@
 import { Footer } from '@/components/site/Footer'
 import { Header } from '@/components/site/Header'
+import { SmoothScroll } from '@/components/site/SmoothScroll'
 import { Communities } from '@/sections/Communities'
 import { Culture } from '@/sections/Culture'
 import { Events } from '@/sections/Events'
@@ -18,6 +19,7 @@ import { Team } from '@/sections/Team'
 function App() {
   return (
     <>
+      <SmoothScroll />
       <Header />
       <main id="top">
         <Hero />

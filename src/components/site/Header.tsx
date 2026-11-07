@@ -46,7 +46,7 @@ export function Header() {
           </button>
         </div>
       </div>
-      <nav className="mnav" id="mnav" aria-label="Sections" hidden={!open}>
+      <nav className="mnav" id="mnav" aria-label="Sections" hidden={!open} data-lenis-prevent>
         <div className="wrap">
           {MOBILE_NAV.map((item) => (
             <a key={item.url} href={item.url} onClick={() => setOpen(false)}>

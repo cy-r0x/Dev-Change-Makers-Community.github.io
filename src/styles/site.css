@@ -76,19 +76,6 @@ img {
   box-sizing: border-box
 }
 
-html {
-  scroll-behavior: smooth
-}
-
-/* Reduced motion drops spatial movement (smooth scroll, the button lift and press, the logo's load
-   animation, each gated where it's defined). Colour fades and small pointer-triggered nudges stay,
-   so controls still visibly answer instead of snapping. */
-@media (prefers-reduced-motion:reduce) {
-  html {
-    scroll-behavior: auto
-  }
-}
-
 body {
   background: var(--bg);
   color: var(--ink);
@@ -593,11 +580,58 @@ header.top .mnav .wrap {
   }
 }
 
+/* Headline on the left; on the right, what the community does and then the two roads it maps,
+   both columns starting on the same top line. */
 .statement-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
-  gap: 24px 56px;
-  align-items: end
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: 32px clamp(40px, 6vw, 80px);
+  align-items: start
+}
+
+.statement-body {
+  display: grid;
+  gap: 28px;
+  padding-top: clamp(4px, .8vw, 12px)
+}
+
+.statement-paths {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line)
+}
+
+.statement-paths li {
+  display: grid;
+  gap: 6px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line)
+}
+
+.statement-path-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px
+}
+
+.statement-path-head b {
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -.01em
+}
+
+.statement-path-head span {
+  font-size: .86rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap
+}
+
+.statement-paths p {
+  font-size: .95rem;
+  color: var(--text-muted)
 }
 
 @media (max-width:860px) {
@@ -607,7 +641,7 @@ header.top .mnav .wrap {
 }
 
 .statement h2 {
-  font-size: clamp(2.2rem, 5.2vw, 4.2rem);
+  font-size: clamp(2.2rem, 5.6vw, 4.8rem);
   letter-spacing: -.035em;
   line-height: 1.04
 }
